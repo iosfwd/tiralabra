@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.jmv</groupId>
+  <artifactId>org.jmv.compress</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.release>11</maven.compiler.release>
+    <java.version>11</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.4.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+      <plugins>
+	<plugin>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <artifactId>maven-surefire-plugin</artifactId>
+	  <version>3.0.0-M5</version>
+	  <dependencies>
+	    <dependency>
+	      <groupId>org.junit.jupiter</groupId>
+	      <artifactId>junit-jupiter-engine</artifactId>
+	      <version>5.4.0</version>
+	    </dependency>
+	  </dependencies>
+	</plugin>
+
+	<plugin>
+	  <groupId>org.jacoco</groupId>
+	  <artifactId>jacoco-maven-plugin</artifactId>
+	  <version>0.8.7</version>
+	  <configuration>
+	    <excludes>
+	    </excludes>
+	  </configuration>
+	  <executions>
+	    <execution>
+	      <id>default-prepare-agent</id>
+	      <goals>
+		<goal>prepare-agent</goal>
+	      </goals>
+	    </execution>
+	  </executions>
+	</plugin>
+
+	<plugin>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <artifactId>maven-jxr-plugin</artifactId>
+	  <version>3.1.1</version>
+	</plugin>
+
+	<plugin>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <artifactId>maven-checkstyle-plugin</artifactId>
+	  <version>3.1.2</version>
+	  <configuration>
+	    <configLocation>./config/checkstyle.xml</configLocation>
+	  </configuration>
+	  <dependencies>
+	    <dependency>
+	      <groupId>com.puppycrawl.tools</groupId>
+	      <artifactId>checkstyle</artifactId>
+	      <version>10.0</version>
+	    </dependency>
+	  </dependencies>
+	</plugin>
+    </plugins>
+  </build>
+</project>
