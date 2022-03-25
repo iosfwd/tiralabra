@@ -1,11 +1,11 @@
 package org.jmv.compress.huffman;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 
 public class TestHuffmanDecoder {
     @Test

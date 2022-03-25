@@ -1,10 +1,13 @@
 package org.jmv.compress.io;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.jmv.compress.huffman.HuffmanNode;
 
+/**
+ * Luokka bittitason lukemiseen.
+ */
 public class BitReader {
     private InputStream input;
     private int buffer;
@@ -12,12 +15,26 @@ public class BitReader {
     private final int bufferSize = 8;
     private boolean eof = false;
 
+    /**
+     * Konstruktoi uusi bittitason lukija InputStream-luokasta.
+     *
+     * @param input Sisääntulo mistä luetaan.
+     *
+     * @throws IOException jos I/O-poikkeama tapahtui.
+     */
     public BitReader(InputStream input) throws IOException {
         this.input = input;
 
         fillBuffer();
     }
 
+    /**
+     * Yhden bitin lukeminen.
+     *
+     * @return Luetun bitin arvo.
+     *
+     * @throws IOException jos I/O-poikkeama tapahtui.
+     */
     public int readBit() throws IOException {
         --currentPosition;
         int b = ((buffer >>> currentPosition) & 1);
@@ -29,6 +46,15 @@ public class BitReader {
         return b;
     }
 
+    /**
+     * Monen bitin lukeminen. Lukee annetun pituuden verran bittejä.
+     *
+     * @param length Luettava pituus.
+     *
+     * @return Luettu pätkä bittejä kokonaislukuna.
+     *
+     * @throws IOException jos I/O-poikkeama tapahtui.
+     */
     public int readBits(int length) throws IOException {
         int x = 0;
 
@@ -39,6 +65,11 @@ public class BitReader {
         return x;
     }
 
+    /**
+     * Puskurin täyttö.
+     *
+     * @throws IOException jos I/O-poikkeama tapahtui.
+     */
     private void fillBuffer() throws IOException {
         var b = input.read();
 
@@ -51,14 +82,31 @@ public class BitReader {
         currentPosition = 8;
     }
 
+    /**
+     * Sisääntulon sulkeminen.
+     *
+     * @throws IOException jos I/O-poikkeama tapahtui.
+     */
     public void close() throws IOException {
         input.close();
     }
 
+    /**
+     * Tarkistaa onko sisääntulo vielä luettavissa.
+     *
+     * @return Totuusarvo sisääntulon tilasta.
+     */
     public boolean available() {
         return !eof;
     }
 
+    /**
+     * Lukee serialisoidun Huffman-puun sisääntulosta.
+     *
+     * @return Huffman-puun juurisolmu.
+     *
+     * @throws IOException jos I/O-poikkeama tapahtui.
+     */
     public HuffmanNode readTree() throws IOException {
         var leaf = readBit();
         if (leaf == 1) {

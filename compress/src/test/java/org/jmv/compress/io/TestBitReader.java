@@ -105,5 +105,4 @@ public class TestBitReader {
             e.printStackTrace();
         }
     }
-
 }
