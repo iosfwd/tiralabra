@@ -41,8 +41,7 @@ public class HuffmanEncoder {
                 bitWriter.writeBits(codes[token].code, codes[token].length);
             }
             bitWriter.finish();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -99,7 +98,7 @@ public class HuffmanEncoder {
             });
 
         for (int i = 0; i < elems - 1; ++i) {
-            alphabet[i].next = alphabet[i+1];
+            alphabet[i].next = alphabet[i + 1];
         }
         alphabet[elems - 1].next = null;
 

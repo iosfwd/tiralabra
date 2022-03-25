@@ -30,15 +30,13 @@ public class HuffmanDecoder {
                     var b = bitReader.readBit();
                     if (b == 1) {
                         n = n.rightChild;
-                    }
-                    else {
+                    } else {
                         n = n.leftChild;
                     }
                 }
                 output.write(n.symbol);
             }
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
