@@ -114,5 +114,4 @@ public class BitWriter {
         writeTree(node.leftChild);
         writeTree(node.rightChild);
     }
-
 }

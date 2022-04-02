@@ -1,6 +1,7 @@
 package org.jmv.compress.io;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -102,6 +103,34 @@ public class TestBitReader {
             assertEquals(0x7FFFFFFF, x);
         }
         catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testMarkAndReset() {
+        var arr = new byte[]{ (byte)133, (byte)64 };
+
+        try {
+            input = new ByteArrayInputStream(arr);
+            br = new BitReader(input);
+
+            assertEquals(16, br.readBits(5));
+
+            br.reset();
+            br.readBits(3);
+            br.mark();
+
+            assertEquals(5, br.readBits(5));
+
+            br.reset();
+
+            assertEquals(5, br.readBits(5));
+            br.reset();
+
+            assertEquals(0, br.readBits(2));
+            assertEquals(21, br.readBits(5));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

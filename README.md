@@ -5,6 +5,8 @@
 
 [Viikkoraportti 2](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/viikkoraportti2.md)
 
+[Viikkoraportti 3](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/viikkoraportti3.md)
+
 ## Dokumentaatio
 
 [Määrittelydokumentti](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/m%C3%A4%C3%A4rittelydokumentti.md)

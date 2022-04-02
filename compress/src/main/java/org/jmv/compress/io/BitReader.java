@@ -14,6 +14,8 @@ public class BitReader {
     private int currentPosition;
     private final int bufferSize = 8;
     private boolean eof = false;
+    private int markedPosition = -1;
+    private int markedBuffer;
 
     /**
      * Konstruktoi uusi bittitason lukija InputStream-luokasta.
@@ -113,6 +115,22 @@ public class BitReader {
             return new HuffmanNode(readBits(8), -1, null, null, null);
         } else {
             return new HuffmanNode(-1, -1, null, readTree(), readTree());
+        }
+    }
+
+    public void mark() {
+        input.mark(4096);
+        markedPosition = currentPosition;
+        markedBuffer = buffer;
+    }
+
+    public void reset() throws IOException {
+        input.reset();
+        if (markedPosition == -1) {
+            fillBuffer();
+        } else {
+            currentPosition = markedPosition;
+            buffer = markedBuffer;
         }
     }
 }

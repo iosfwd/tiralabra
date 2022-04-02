@@ -81,7 +81,7 @@ public class HuffmanEncoder {
         }
 
         // Alusta lista solmuja jonka avulla puu rakennetaan.
-        HuffmanNode[] alphabet = new HuffmanNode[(2 * elems) - 1];
+        HuffmanNode[] alphabet = new HuffmanNode[elems];
 
         int j = 0;
         for (int i = 0; i < 256; ++i) {
