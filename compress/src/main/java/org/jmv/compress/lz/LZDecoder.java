@@ -16,35 +16,39 @@ public class LZDecoder {
      * @param input Dekoodattava sisääntulo.
      * @param output Ulostulo johon dekoodataan.
      */
-    public static void decode(InputStream input, OutputStream output) {
-
-        String decoded = "";
-
+    public static int decode(InputStream input, OutputStream output) {
         try {
             var bitReader = new BitReader(input);
+            int size = bitReader.readBits(32);
 
-            while (bitReader.available()) {
+            byte[] decoded = new byte[size];
 
-                int offset = bitReader.readBits(12);
-                int length = bitReader.readBits(12);
-                int symbol = bitReader.readBits(8);
+            int i = 0;
+            while (i < size) {
 
-                if (offset == 0 && length == 0) {
-                    decoded += (char)symbol;
+                if (bitReader.readBit() == 0) {
+                    int symbol = bitReader.readBits(8);
+                    decoded[i] = (byte)symbol;
+                    ++i;
                 } else {
-                    int index = decoded.length() - offset;
-                    for (int j = 0; j < length; ++j) {
-                        decoded += decoded.charAt(index + j);
+                    int offset = bitReader.readBits(12);
+                    int length = bitReader.readBits(9);
+                    int index = i - offset;
 
+                    for (int j = 0; j < length; ++j) {
+                        decoded[i + j] = decoded[index + j];
                     }
-                    decoded += (char)symbol;
+                    i += length;
                 }
             }
+            output.write(decoded);
 
-            output.write(decoded.getBytes());
+            return size;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return 0;
     }
 }

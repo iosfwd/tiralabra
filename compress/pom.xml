@@ -46,6 +46,9 @@
 	  <version>0.8.7</version>
 	  <configuration>
 	    <excludes>
+	      <exclude>org/jmv/compress/LZ.class</exclude>
+	      <exclude>org/jmv/compress/Huffman.class</exclude>
+	      <exclude>org/jmv/compress/RunTests.class</exclude>
 	    </excludes>
 	  </configuration>
 	  <executions>

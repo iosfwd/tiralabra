@@ -2,6 +2,7 @@ package org.jmv.compress.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.DataInput;
 
 import org.jmv.compress.huffman.HuffmanNode;
 
@@ -85,21 +86,21 @@ public class BitReader {
     }
 
     /**
-     * Sisääntulon sulkeminen.
-     *
-     * @throws IOException jos I/O-poikkeama tapahtui.
-     */
-    public void close() throws IOException {
-        input.close();
-    }
-
-    /**
      * Tarkistaa onko sisääntulo vielä luettavissa.
      *
      * @return Totuusarvo sisääntulon tilasta.
      */
     public boolean available() {
         return !eof;
+    }
+
+    /**
+     * Sisääntulon sulkeminen.
+     *
+     * @throws IOException jos I/O-poikkeama tapahtui.
+     */
+    public void close() throws IOException {
+        input.close();
     }
 
     /**
@@ -118,12 +119,18 @@ public class BitReader {
         }
     }
 
+    /**
+     * Tallenna paikka.
+     */
     public void mark() {
         input.mark(4096);
         markedPosition = currentPosition;
         markedBuffer = buffer;
     }
 
+    /**
+     * Palaa tallennetulle paikalle.
+     */
     public void reset() throws IOException {
         input.reset();
         if (markedPosition == -1) {

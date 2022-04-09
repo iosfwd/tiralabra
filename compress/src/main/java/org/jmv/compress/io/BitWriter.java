@@ -13,6 +13,7 @@ public class BitWriter {
     private int buffer;
     private int currentPosition;
     private final int bufferSize = 8;
+    private int bytesWritten = 0;
 
     /**
      * Konstruktoi uusi bittitason kirjoittaja OutputStream-luokasta.
@@ -72,6 +73,7 @@ public class BitWriter {
 
         buffer = (buffer << (8 - currentPosition));
         output.write(buffer);
+        ++bytesWritten;
 
         buffer = 0;
         currentPosition = 0;
@@ -113,5 +115,9 @@ public class BitWriter {
         writeBit(0);
         writeTree(node.leftChild);
         writeTree(node.rightChild);
+    }
+
+    public int getBytesWritten() {
+        return bytesWritten;
     }
 }

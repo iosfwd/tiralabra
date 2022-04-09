@@ -32,7 +32,7 @@ public class TestLZ {
 
         String s = "";
 
-        for (int i = 0; i < (2*4096); ++i) {
+        for (int i = 0; i < (3*4096); ++i) {
             int r = rand.nextInt() % 10;
             switch (r) {
             case 0: s += "A"; break;

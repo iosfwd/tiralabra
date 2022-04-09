@@ -16,7 +16,7 @@ public class HuffmanDecoder {
      * @param input Dekoodattava sisääntulo.
      * @param output Ulostulo johon dekoodataan.
      */
-    public static void decode(InputStream input, OutputStream output) {
+    public static int decode(InputStream input, OutputStream output) {
         try {
             var bitReader = new BitReader(input);
             var root = bitReader.readTree();
@@ -36,8 +36,13 @@ public class HuffmanDecoder {
                 }
                 output.write(n.symbol);
             }
+
+            return size;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return 0;
     }
 }
