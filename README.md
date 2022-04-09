@@ -13,29 +13,29 @@ Testi-ohjelman saa ajettua näin:
 
 Ohjelmia saa muuten ajettua näin:
 
-    * Kääntäminen:
+* Kääntäminen:
 
 	`$ cd compress`
 
 	`$ mvn package`
 
 
-    * LZ-enkoodaus:
+* LZ-enkoodaus:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.LZ e polku/inputiin polku/outputiin`
 
 
-    * LZ-dekoodaus:
+* LZ-dekoodaus:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.LZ d polku/inputiin polku/outputiin`
 
 
-    * Huffman-enkoodaus:
+* Huffman-enkoodaus:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.Huffman e polku/inputiin polku/outputiin`
 
 
-    * Huffman-dekoodaus:
+* Huffman-dekoodaus:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.Huffman d polku/inputiin polku/outputiin`
 
