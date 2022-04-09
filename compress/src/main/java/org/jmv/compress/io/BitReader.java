@@ -2,7 +2,6 @@ package org.jmv.compress.io;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.DataInput;
 
 import org.jmv.compress.huffman.HuffmanNode;
 
