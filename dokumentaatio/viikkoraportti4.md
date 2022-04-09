@@ -16,4 +16,4 @@
 
 - Seuraavaksi ajattelin tutkia kaanonista Huffman-koodausta.
 
-- Käytin tällä viikolla aikaa noin 10 tuntia.
+- Käytin tällä viikolla aikaa noin 12 tuntia.

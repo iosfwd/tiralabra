@@ -3,9 +3,10 @@ package org.jmv.compress;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.RandomAccessFile;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.jmv.compress.io.ResetableFileInputStream;
 import org.jmv.compress.lz.LZDecoder;
 import org.jmv.compress.lz.LZEncoder;
 
@@ -53,7 +54,7 @@ public class LZ {
             }
 
             if (mode.equals("e")) {
-                var input = new RandomAccessFile(inFile, "r");
+                var input = new ResetableFileInputStream(inFile);
                 var output = new FileOutputStream(outFile);
 
                 long start = System.nanoTime();
@@ -67,6 +68,9 @@ public class LZ {
                 System.out.printf("Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
             }
 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);

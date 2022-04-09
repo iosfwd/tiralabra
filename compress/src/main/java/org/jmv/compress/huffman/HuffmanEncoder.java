@@ -3,7 +3,6 @@ package org.jmv.compress.huffman;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -49,49 +48,6 @@ public class HuffmanEncoder {
         }
 
         return 0;
-    }
-
-    public static int encode(RandomAccessFile input, OutputStream output) {
-        try {
-            var counts = scanCounts(input);
-
-            int size = 0;
-            for (int i = 0; i < 256; i++) {
-                size += counts[i];
-            }
-
-            var root = buildTree(counts);
-            var codes = buildCodesFromTree(root);
-
-            var bitWriter = new BitWriter(output);
-            bitWriter.writeTree(root);
-            bitWriter.writeBits(size, 32);
-
-            input.seek(0);
-
-            int token = 0;
-            while ((token = input.read()) != -1) {
-                bitWriter.writeBits(codes[token].code, codes[token].length);
-            }
-            bitWriter.finish();
-            return bitWriter.getBytesWritten();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
-    }
-
-    private static int[] scanCounts(RandomAccessFile input) throws IOException {
-        int[] counts = new int[256];
-
-        int token = 0;
-        while ((token = input.read()) != -1) {
-            ++counts[token];
-        }
-
-        return counts;
     }
 
     /**

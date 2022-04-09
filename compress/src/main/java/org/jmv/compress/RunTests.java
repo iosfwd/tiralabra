@@ -3,12 +3,12 @@ package org.jmv.compress;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.RandomAccessFile;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.jmv.compress.io.ResetableFileInputStream;
 import org.jmv.compress.huffman.HuffmanDecoder;
 import org.jmv.compress.huffman.HuffmanEncoder;
-
 import org.jmv.compress.lz.LZDecoder;
 import org.jmv.compress.lz.LZEncoder;
 
@@ -22,7 +22,7 @@ public class RunTests {
             var inFile = new File("test_material/dna.1MB");
             var outFile = new File("test_material/dna.1MB.lzenc");
             var original = inFile.length();
-            var input = new RandomAccessFile(inFile, "r");
+            var input = new ResetableFileInputStream(inFile);
             var output = new FileOutputStream(outFile);
 
             long start = System.nanoTime();
@@ -72,7 +72,7 @@ public class RunTests {
             var inFile = new File("test_material/dna.1MB");
             var outFile = new File("test_material/dna.1MB.huffenc");
             var original = inFile.length();
-            var input = new RandomAccessFile(inFile, "r");
+            var input = new ResetableFileInputStream(inFile);
             var output = new FileOutputStream(outFile);
 
             long start = System.nanoTime();
@@ -122,7 +122,7 @@ public class RunTests {
             var inFile = new File("test_material/english.1MB");
             var outFile = new File("test_material/english.1MB.lzenc");
             var original = inFile.length();
-            var input = new RandomAccessFile(inFile, "r");
+            var input = new ResetableFileInputStream(inFile);
             var output = new FileOutputStream(outFile);
 
             long start = System.nanoTime();
@@ -172,7 +172,7 @@ public class RunTests {
             var inFile = new File("test_material/english.1MB");
             var outFile = new File("test_material/english.1MB.huffenc");
             var original = inFile.length();
-            var input = new RandomAccessFile(inFile, "r");
+            var input = new ResetableFileInputStream(inFile);
             var output = new FileOutputStream(outFile);
 
             long start = System.nanoTime();
