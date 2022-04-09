@@ -13,7 +13,7 @@ Testi-ohjelman saa ajettua näin:
 
     `$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.RunTests`
 
-Testidata on seuraavalta sivustolta
+Testidata on sivustolta
 <http://pizzachili.dcc.uchile.cl/index.html>, joka ylläpitää
 testimateriaalia tiiviille tietorakenteille ja tiedostonpakkaukselle.
 Testidata koostuu kahdesta 1MB tiedostosta, joista ensimmäinen on

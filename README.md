@@ -12,23 +12,28 @@ Testi-ohjelman saa ajettua näin:
 
 
 Ohjelmia saa muuten ajettua näin:
+
     * Kääntäminen:
 
 	`$ cd compress`
 
 	`$ mvn package`
 
+
     * LZ-enkoodaus:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.LZ e polku/inputiin polku/outputiin`
+
 
     * LZ-dekoodaus:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.LZ d polku/inputiin polku/outputiin`
 
+
     * Huffman-enkoodaus:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.Huffman e polku/inputiin polku/outputiin`
+
 
     * Huffman-dekoodaus:
 
@@ -47,4 +52,5 @@ Ohjelmia saa muuten ajettua näin:
 ## Dokumentaatio
 
 [Määrittelydokumentti](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/m%C3%A4%C3%A4rittelydokumentti.md)
+
 [Testausdokumentti](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/testausdokumentti.md)
