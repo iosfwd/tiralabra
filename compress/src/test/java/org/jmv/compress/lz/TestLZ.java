@@ -16,7 +16,9 @@ public class TestLZ {
         var input = new ByteArrayInputStream(inputString.getBytes());
         var output = new ByteArrayOutputStream();
 
-        LZEncoder.encode(input, output);
+        var lzenc = new LZEncoder(4096, 3, 258);
+        lzenc.encode(input, output);
+
         var r1 = output.toByteArray();
         output.reset();
 
@@ -52,7 +54,9 @@ public class TestLZ {
         var input = new ByteArrayInputStream(s.getBytes());
         var output = new ByteArrayOutputStream();
 
-        LZEncoder.encode(input, output);
+        var lzenc = new LZEncoder(4096, 3, 258);
+        lzenc.encode(input, output);
+
         var r1 = output.toByteArray();
         output.reset();
 

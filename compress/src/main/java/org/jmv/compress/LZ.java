@@ -59,7 +59,8 @@ public class LZ {
 
                 long start = System.nanoTime();
 
-                int encoded = LZEncoder.encode(input, output);
+                var lzenc = new LZEncoder(4096, 3, 258);
+                int encoded = lzenc.encode(input, output);
 
                 long timeTaken = System.nanoTime() - start;
 

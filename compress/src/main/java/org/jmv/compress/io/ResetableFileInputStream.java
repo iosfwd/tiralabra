@@ -17,7 +17,7 @@ public class ResetableFileInputStream extends InputStream {
      *
      * @param file Tiedosto mistä luetaan.
      *
-     * @throws FileNotFoundException jos tiedostoa ei löydy..
+     * @throws FileNotFoundException jos tiedostoa ei löydy.
      */
     public ResetableFileInputStream(File file) throws FileNotFoundException {
         raf = new RandomAccessFile(file, "r");

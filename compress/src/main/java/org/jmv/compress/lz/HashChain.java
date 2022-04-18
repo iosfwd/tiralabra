@@ -3,35 +3,41 @@ package org.jmv.compress.lz;
 import java.util.Arrays;
 
 /**
- * Tietynlaisen hajautustaulun toteuttava luokka jolla haetaan osumia Lempel-Ziv enkoodaukseen.
+ * Tietynlaisen hajautustaulun toteuttava luokka jolla haetaan osumia
+ * Lempel-Ziv enkoodaukseen. Tallentaa ikkunan kaikkien
+ * alimerkkijonojen sijainnin. Laskee hash-arvon alimerkkijonon
+ * ensimmäisten merkkien mukaan, ja tallentaa alimerkkijonon sijainnin
+ * ikkunassa. head-taulukkoon on tallennettu jokaisen hash-arvon
+ * viimeisin sijainti ikkunassa, ja prev-taulukon avulla tallennetaan
+ * saman hash-arvon muut sijainnit.
  */
 public class HashChain {
-    private int windowLength;
-    private int windowMask;
-    private int minMatchLength;
-    private int[] head;
-    private int[] prev;
-    private int matchLimit;
+    private final int windowLength;
+    private final int windowMask;
+    private final int minMatchLength;
+    private final int matchLimit;
+    private final int[] head;
+    private final int[] prev;
     private int matchPosition = 0;
     private int matchLength = 0;
+
     /**
-     * Konstruktoi uusi bittitason kirjoittaja OutputStream-luokasta.
+     * Konstruktoi uusi hajautustaulu.
      *
      * @param windowLength LZ-ikkunan pituus.
      * @param minMatchLength Pienin hyväksytty osuman pituus.
-     * @param matchLimit Kuinka monta osumaa tarkastetaan parasta haettaessa.
+     * @param matchLimit Kuinka monta osumaa enintään tarkastetaan parasta haettaessa.
      */
     public HashChain(int windowLength, int minMatchLength, int matchLimit) {
         this.windowLength = windowLength;
         windowMask = windowLength - 1;
-
         this.minMatchLength = minMatchLength;
+        this.matchLimit = matchLimit;
+
         this.head = new int[windowLength];
         this.prev = new int[windowLength];
         Arrays.fill(this.head, -windowLength);
         Arrays.fill(this.prev, -windowLength);
-
-        this.matchLimit = matchLimit;
     }
 
     /**
@@ -82,7 +88,8 @@ public class HashChain {
     }
 
     /**
-     * Hae pisin osuma jollekin LZ-puskurin kohdalle.
+     * Hae pisin osuma jollekin LZ-puskurin kohdalle ja päivitä
+     * hajautustaulukkoa.
      *
      * @param buffer LZ-puskuri.
      * @param pos LZ-puskurin kohta jolle haetaan osumaa.

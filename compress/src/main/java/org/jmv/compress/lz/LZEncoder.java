@@ -5,17 +5,36 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.jmv.compress.io.BitWriter;
+import org.jmv.compress.util.BinaryLogarithm;
 
 /**
  * Luokka joka säilöö LZ-enkoodaukseen käytettävät funktiot.
  */
 public class LZEncoder {
-    private static final int maxWindowLength = 4096;
-    private static final int minMatchLength = 3;
-    private static final int maxMatchLength = 258;
+    private final int windowLength;
+    private final int minMatchLength;
+    private final int maxMatchLength;
+    private final int offsetBitLength;
+    private final int matchLengthBitLength;
 
     /**
-     * Siirrä ikkunaa, lue puskuri täyteen ja palauta luettujen tavuen lukumäärä.
+     * Konstruktoi uusi LZ-enkoodaaja.
+     *
+     * @param windowLength Ikkunan pituus.
+     * @param minMatchLength Osuman vähimmäispituus.
+     * @param maxMatchLength Osuman enimmäispituus.
+     */
+    public LZEncoder(int windowLength, int minMatchLength, int maxMatchLength) {
+        this.windowLength = windowLength;
+        this.minMatchLength = minMatchLength;
+        this.maxMatchLength = maxMatchLength;
+
+        offsetBitLength = BinaryLogarithm.log2(windowLength + 1);
+        matchLengthBitLength = BinaryLogarithm.log2(maxMatchLength - minMatchLength + 1);
+    };
+
+    /**
+     * Siirrä ikkunaa, lue puskuri täyteen ja palauta luettujen tavujen lukumäärä.
      *
      * @param buffer Puskuri minne luetaan.
      * @param input Sisääntulo mistä luetaan.
@@ -24,20 +43,20 @@ public class LZEncoder {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    private static int fillWindow(byte[] buffer, InputStream input) throws IOException {
-        byte[] in = new byte[maxWindowLength];
-        int bytesRead = input.read(in, 0, maxWindowLength);
+    private int fillWindow(byte[] buffer, InputStream input) throws IOException {
+        byte[] in = new byte[windowLength];
+        int bytesRead = input.read(in, 0, windowLength);
 
         if (bytesRead == -1) {
             return bytesRead;
         }
 
-        if (bytesRead == maxWindowLength) {
-            System.arraycopy(buffer, maxWindowLength, buffer, 0, maxWindowLength);
-            System.arraycopy(in, 0, buffer, maxWindowLength, maxWindowLength);
+        if (bytesRead == windowLength) {
+            System.arraycopy(buffer, windowLength, buffer, 0, windowLength);
+            System.arraycopy(in, 0, buffer, windowLength, windowLength);
         } else {
-            System.arraycopy(buffer, bytesRead, buffer, 0, (2 * maxWindowLength) - bytesRead);
-            System.arraycopy(in, 0, buffer, (2 * maxWindowLength) -  bytesRead, bytesRead);
+            System.arraycopy(buffer, bytesRead, buffer, 0, (2 * windowLength) - bytesRead);
+            System.arraycopy(in, 0, buffer, (2 * windowLength) -  bytesRead, bytesRead);
         }
 
         return bytesRead;
@@ -51,7 +70,7 @@ public class LZEncoder {
      *
      * @return Kirjoitettujen tavujen lukumäärä.
      */
-    public static int encode(InputStream input, OutputStream output) {
+    public int encode(InputStream input, OutputStream output) {
         try {
             //Laske ja kirjoita lähtötiedoston pituus
             int length = 0;
@@ -62,14 +81,17 @@ public class LZEncoder {
 
             var bitWriter = new BitWriter(output);
             bitWriter.writeBits(length, 32);
+            bitWriter.writeBits(windowLength, 32);
+            bitWriter.writeBits(minMatchLength, 32);
+            bitWriter.writeBits(maxMatchLength, 32);
 
-            HashChain hc = new HashChain(maxWindowLength, minMatchLength, 16);
+            HashChain hc = new HashChain(windowLength, minMatchLength, 16);
 
-            byte[] buffer = new byte[2 * maxWindowLength];
+            byte[] buffer = new byte[2 * windowLength];
             int lookahead = fillWindow(buffer, input);
             while (lookahead != -1) {
-                int currentPosition = (2 * maxWindowLength) - lookahead;
-                while (currentPosition < (2 * maxWindowLength)) {
+                int currentPosition = (2 * windowLength) - lookahead;
+                while (currentPosition < (2 * windowLength)) {
                     // Etsi pisin osuma nykyiselle kohdalle.
                     hc.findLongestMatch(buffer, currentPosition);
                     int matchPosition = hc.getMatchPosition();
@@ -88,8 +110,8 @@ public class LZEncoder {
                         }
                         int offset = -(matchPosition - currentPosition);
                         bitWriter.writeBit(1);
-                        bitWriter.writeBits(offset, 12);
-                        bitWriter.writeBits(matchLength, 9);
+                        bitWriter.writeBits(offset, offsetBitLength);
+                        bitWriter.writeBits(matchLength - minMatchLength, matchLengthBitLength);
 
                         currentPosition += matchLength;
                     }

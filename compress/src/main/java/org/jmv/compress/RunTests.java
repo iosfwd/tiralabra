@@ -17,6 +17,8 @@ public class RunTests {
 
         System.out.println("Running tests on test material!");
 
+        var lzenc = new LZEncoder(4096, 3, 258);
+
         try {
             System.out.println("Running LZ encoding on dna.1MB");
             var inFile = new File("test_material/dna.1MB");
@@ -27,7 +29,7 @@ public class RunTests {
 
             long start = System.nanoTime();
 
-            int encoded = LZEncoder.encode(input, output);
+            int encoded = lzenc.encode(input, output);
 
             long timeTaken = System.nanoTime() - start;
 
@@ -127,7 +129,7 @@ public class RunTests {
 
             long start = System.nanoTime();
 
-            int encoded = LZEncoder.encode(input, output);
+            int encoded = lzenc.encode(input, output);
 
             long timeTaken = System.nanoTime() - start;
 
