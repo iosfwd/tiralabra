@@ -11,6 +11,7 @@ import java.io.RandomAccessFile;
  */
 public class ResetableFileInputStream extends InputStream {
     private RandomAccessFile raf;
+    private long markedPosition = 0;
 
     /**
      * Konstruktoi uusi kelattava tiedostonlukija.
@@ -59,11 +60,22 @@ public class ResetableFileInputStream extends InputStream {
     }
 
     /**
-     * Kelaa tiedoston alkuun.
+     * Merkitse kelattava kohta.
+     */
+    public void mark(int readLimit) {
+        try {
+            markedPosition = raf.getFilePointer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Kelaa tiedoston merkittyyn kohtaan.
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
     public void reset() throws IOException {
-        raf.seek(0);
+        raf.seek(markedPosition);
     }
 }

@@ -27,13 +27,12 @@ public class LZDecoder {
             int offsetBitLength = BinaryLogarithm.log2(windowLength + 1);
             int matchLengthBitLength = BinaryLogarithm.log2(maxMatchLength - minMatchLength + 1);
 
-
             int windowMask = windowLength - 1;
 
             byte[] decoded = new byte[windowLength];
 
             int i = 0;
-            int r = 0;
+            int windowPosition = 0;
             while (i < size) {
 
                 if (bitReader.readBit() == 0) {
@@ -41,20 +40,20 @@ public class LZDecoder {
                     output.write(symbol);
                     ++i;
 
-                    decoded[r] = (byte)symbol;
-                    ++r;
-                    r &= windowMask;
+                    decoded[windowPosition] = (byte)symbol;
+                    ++windowPosition;
+                    windowPosition &= windowMask;
                 } else {
                     int offset = bitReader.readBits(offsetBitLength);
                     int length = bitReader.readBits(matchLengthBitLength) + minMatchLength;
                     int index = i - offset;
 
                     for (int j = 0; j < length; ++j) {
-                        decoded[(r + j) & windowMask] = decoded[(index + j) & windowMask];
-                        output.write((int)decoded[(r + j) & windowMask]);
+                        decoded[(windowPosition + j) & windowMask] = decoded[(index + j) & windowMask];
+                        output.write((int)decoded[(windowPosition + j) & windowMask]);
                     }
-                    r += length;
-                    r &= windowMask;
+                    windowPosition += length;
+                    windowPosition &= windowMask;
 
                     i += length;
                 }

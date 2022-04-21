@@ -19,22 +19,21 @@ public class HuffmanDecoder {
     public static int decode(InputStream input, OutputStream output) {
         try {
             var bitReader = new BitReader(input);
-            var root = bitReader.readTree();
+
+            var ht = new HuffmanTable(bitReader.readTree());
+            var codebook = new HuffmanCodebook(ht.getTable());
+
             var size = bitReader.readBits(32);
+            for (int i = 0; i < size; ++i) {
+                bitReader.mark();
+                int n = bitReader.readBits(codebook.getDepth());
+                int symbol = codebook.decode(n);
+                int len = codebook.getLength();
 
-            // Lue bittejä ja kulje puuta niiden mukaan kunnes koodi löytyy.
-            for (int i = 0; i < size; i++) {
-                var n = root;
+                bitReader.reset();
+                bitReader.readBits(len);
 
-                while (!n.isLeafNode()) {
-                    var b = bitReader.readBit();
-                    if (b == 1) {
-                        n = n.rightChild;
-                    } else {
-                        n = n.leftChild;
-                    }
-                }
-                output.write(n.symbol);
+                output.write(symbol);
             }
 
             return size;

@@ -1,7 +1,7 @@
 package org.jmv.compress.huffman;
 
 /**
- * Huffman-solmu Huffman-puun rakentamiseen
+ * Huffman-solmu Huffman-puun rakentamiseen.
  */
 public class HuffmanNode implements Comparable<HuffmanNode> {
     /**
@@ -24,6 +24,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * Osoitin solmun oikeaan lapseen.
      */
     public HuffmanNode rightChild;
+
     /**
      * Konstruktoi tyhjä solmu.
      */
