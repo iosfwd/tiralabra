@@ -99,7 +99,7 @@ public class RunTests {
             var inFile = new File("test_material/dna.1MB.huffenc");
             var outFile = new File("test_material/dna.1MB.huffdec");
             var original = inFile.length();
-            var input = new FileInputStream(inFile);
+            var input = new ResetableFileInputStream(inFile);
             var output = new FileOutputStream(outFile);
 
             long start = System.nanoTime();
@@ -199,7 +199,7 @@ public class RunTests {
             var inFile = new File("test_material/english.1MB.huffenc");
             var outFile = new File("test_material/english.1MB.huffdec");
             var original = inFile.length();
-            var input = new FileInputStream(inFile);
+            var input = new ResetableFileInputStream(inFile);
             var output = new FileOutputStream(outFile);
 
             long start = System.nanoTime();
