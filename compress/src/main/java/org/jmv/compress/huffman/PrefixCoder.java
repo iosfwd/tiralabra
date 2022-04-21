@@ -6,13 +6,13 @@ import java.util.Comparator;
 /**
  * Prefiksikoodauksen säilövä luokka.
  */
-public class PrefixCoder {
+public final class PrefixCoder {
     /**
      * Laske prefiksikoodit taulukolle.
      *
      * @param codes Taulukko Huffman-koodisanoja.
      */
-    public static void buildPrefixCodes(HuffmanCodeword[] codes) {
+    public final static void buildPrefixCodes(HuffmanCodeword[] codes) {
         Arrays.sort(codes, new Comparator<HuffmanCodeword>() {
                 public int compare(HuffmanCodeword c1, HuffmanCodeword c2) {
                     return Integer.compare(c1.symbol, c2.symbol);

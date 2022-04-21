@@ -9,7 +9,7 @@ import org.jmv.compress.huffman.HuffmanNode;
  * Luokka bittitason kirjoittamiseen.
  */
 public class BitWriter {
-    private OutputStream output;
+    private final OutputStream output;
     private int buffer;
     private int currentPosition;
     private final int bufferSize = 8;
@@ -33,7 +33,7 @@ public class BitWriter {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void writeBit(int b) throws IOException {
+    public final void writeBit(int b) throws IOException {
         b &= 1;
         buffer <<= 1;
         buffer |= b;
@@ -54,7 +54,7 @@ public class BitWriter {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void writeBits(int x, int length) throws IOException {
+    public final void writeBits(int x, int length) throws IOException {
         for (int i = 0; i < length; ++i) {
             int b = (x >>> (length - 1 - i)) & 1;
             writeBit(b);
@@ -66,7 +66,7 @@ public class BitWriter {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void flush() throws IOException {
+    public final void flush() throws IOException {
         if (currentPosition == 0) {
             return;
         }
@@ -84,7 +84,7 @@ public class BitWriter {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void finish() throws IOException {
+    public final void finish() throws IOException {
         flush();
         output.flush();
     }
@@ -94,7 +94,7 @@ public class BitWriter {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void close() throws IOException {
+    public final void close() throws IOException {
         finish();
         output.close();
     }
@@ -106,7 +106,7 @@ public class BitWriter {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void writeTree(HuffmanNode node) throws IOException {
+    public final void writeTree(HuffmanNode node) throws IOException {
         if (node.isLeafNode()) {
             writeBit(1);
             writeBits(node.symbol, 8);
@@ -117,7 +117,7 @@ public class BitWriter {
         writeTree(node.rightChild);
     }
 
-    public int getBytesWritten() {
+    public final int getBytesWritten() {
         return bytesWritten;
     }
 }

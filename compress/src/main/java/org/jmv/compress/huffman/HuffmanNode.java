@@ -56,9 +56,9 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
     /**
      * Tarkista onko solmu lehtisolmu, eli onko sillä lapsia.
      *
-     * @return Palauttaa toden jos solmu on lehtisolmu
+     * @return Palauttaa toden jos solmu on lehtisolmu.
      */
-    public boolean isLeafNode() {
+    public final boolean isLeafNode() {
         return (leftChild == null && rightChild == null);
     }
 
@@ -70,7 +70,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
      * @return Palauttaa vertailun tuloksen.
      */
     @Override
-    public int compareTo(HuffmanNode node) {
+    public final int compareTo(HuffmanNode node) {
         return Integer.compare(count, node.count);
     }
 }

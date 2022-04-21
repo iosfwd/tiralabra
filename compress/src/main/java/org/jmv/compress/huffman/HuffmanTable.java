@@ -6,8 +6,8 @@ import java.util.Comparator;
 /**
  * Huffman-koodit taulukoiva luokka.
  */
-public class HuffmanTable {
-    private HuffmanCodeword[] table = new HuffmanCodeword[256];
+public final class HuffmanTable {
+    private final HuffmanCodeword[] table = new HuffmanCodeword[256];
     private HuffmanNode root;
 
     /**
@@ -37,7 +37,7 @@ public class HuffmanTable {
      *
      * @param root Puun juurisolmu.
      */
-    private void buildTree(int[] counts) {
+    private final void buildTree(int[] counts) {
         // Laske kuinka monta erilaista symbolia sisääntulossa esiintyi.
         int size = (int)Arrays.stream(counts).filter(n -> n > 0).count();
 
@@ -95,7 +95,7 @@ public class HuffmanTable {
      * @param root Puun juurisolmu.
      * @param depth Syvyys.
      */
-    private void calculateLengths(HuffmanNode n, int depth) {
+    private final void calculateLengths(HuffmanNode n, int depth) {
         if (!n.isLeafNode()) {
             calculateLengths(n.leftChild, depth + 1);
             calculateLengths(n.rightChild, depth + 1);
@@ -111,7 +111,7 @@ public class HuffmanTable {
      *
      * @param codes Huffman-koodien taulukko.
      */
-    private void buildCanonicalCodes() {
+    private final void buildCanonicalCodes() {
             var canonicalCodes = Arrays.stream(table)
                 .filter(c -> c != null).toArray(HuffmanCodeword[]::new);
             PrefixCoder.buildPrefixCodes(canonicalCodes);
@@ -128,7 +128,7 @@ public class HuffmanTable {
      *
      * @return Symbolin koodi.
      */
-    public int lookupCode(int symbol) {
+    public final int lookupCode(int symbol) {
         return table[symbol].code;
     }
 
@@ -139,7 +139,7 @@ public class HuffmanTable {
      *
      * @return Symbolin koodin pituus.
      */
-    public int lookupLength(int symbol) {
+    public final int lookupLength(int symbol) {
         return table[symbol].length;
     }
 
@@ -148,7 +148,7 @@ public class HuffmanTable {
      *
      * @return Kooditaulukko.
      */
-    public HuffmanCodeword[] getTable() {
+    public final HuffmanCodeword[] getTable() {
         return table;
     }
 
@@ -157,7 +157,7 @@ public class HuffmanTable {
      *
      * @return Puun juurisolmu
      */
-    public HuffmanNode getRoot() {
+    public final HuffmanNode getRoot() {
         return root;
     }
 }

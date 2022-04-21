@@ -11,7 +11,7 @@ import java.util.Arrays;
  * viimeisin sijainti ikkunassa, ja prev-taulukon avulla tallennetaan
  * saman hash-arvon muut sijainnit.
  */
-public class HashChain {
+public final class HashChain {
     private final int windowLength;
     private final int windowMask;
     private final int minMatchLength;
@@ -45,7 +45,7 @@ public class HashChain {
      *
      * @param n Kuinka monta tavua ikkunaa siirrettiin.
      */
-    public void moveWindow(int n) {
+    public final void moveWindow(int n) {
         for (int i = 0; i < windowLength; ++i) {
             head[i] -= n;
             prev[i] -= n;
@@ -58,7 +58,7 @@ public class HashChain {
      * @param buffer LZ-puskuri.
      * @param pos LZ-puskurin kohta josta hash lasketaan.
      */
-    private int hash(byte[] buffer, int pos) {
+    private final int hash(byte[] buffer, int pos) {
         int h = 0;
         for (int i = 0; i < minMatchLength && (pos + i) < buffer.length; ++i) {
             h = (h << 5) ^ (int)buffer[pos + i];
@@ -74,7 +74,7 @@ public class HashChain {
      * @param pos LZ-puskurin kohta jolle löytyi osuma.
      * @param matchPos Kohta josta osuma löytyi.
      */
-    private int findMatchLength(byte[] buffer, int pos, int matchPos) {
+    private final int findMatchLength(byte[] buffer, int pos, int matchPos) {
         int matchLen = 0;
 
         for (int i = 0; (pos + i) < buffer.length && (matchPos + i) < pos; ++i) {
@@ -94,16 +94,16 @@ public class HashChain {
      * @param buffer LZ-puskuri.
      * @param pos LZ-puskurin kohta jolle haetaan osumaa.
      */
-    public void findLongestMatch(byte[] buffer, int pos) {
-        int insh = hash(buffer, pos);
+    public final void findLongestMatch(byte[] buffer, int pos) {
+        final int insh = hash(buffer, pos);
         int next = head[insh];
 
-        int windowBegin = pos - windowLength;
+        final int windowBegin = pos - windowLength;
         int found = 0;
         int longestMatch = 0;
         int matchPos = 0;
         while (next > windowBegin && found < matchLimit) {
-            int length = findMatchLength(buffer, pos, next);
+            final int length = findMatchLength(buffer, pos, next);
 
             if (length > longestMatch) {
                 longestMatch = length;
@@ -126,7 +126,7 @@ public class HashChain {
      *
      * @return Osuman kohta.
      */
-    public int getMatchPosition() {
+    public final int getMatchPosition() {
         return matchPosition;
     }
 
@@ -135,7 +135,7 @@ public class HashChain {
      *
      * @return Osuman pituus.
      */
-    public int getMatchLength() {
+    public final int getMatchLength() {
         return matchLength;
     }
 }

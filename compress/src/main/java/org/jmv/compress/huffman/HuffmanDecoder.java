@@ -9,26 +9,27 @@ import org.jmv.compress.io.BitReader;
 /**
  * Luokka joka säilöö Huffman-dekoodaukseen käytettävät funktiot.
  */
-public class HuffmanDecoder {
+public final class HuffmanDecoder {
     /**
      * Huffman-dekoodaa sisääntulon ulostuloon.
      *
      * @param input Dekoodattava sisääntulo.
      * @param output Ulostulo johon dekoodataan.
      */
-    public static int decode(InputStream input, OutputStream output) {
+    public final static int decode(InputStream input, OutputStream output) {
         try {
-            var bitReader = new BitReader(input);
+            final var bitReader = new BitReader(input);
 
-            var ht = new HuffmanTable(bitReader.readTree());
-            var codebook = new HuffmanCodebook(ht.getTable());
+            final var ht = new HuffmanTable(bitReader.readTree());
+            final var codebook = new HuffmanCodebook(ht.getTable());
+            final int depth = codebook.getDepth();
+            final int size = bitReader.readBits(32);
 
-            var size = bitReader.readBits(32);
             for (int i = 0; i < size; ++i) {
                 bitReader.mark();
-                int n = bitReader.readBits(codebook.getDepth());
-                int symbol = codebook.decode(n);
-                int len = codebook.getLength();
+                final int n = bitReader.readBits(depth);
+                final int symbol = codebook.decode(n);
+                final int len = codebook.getLength();
 
                 bitReader.reset();
                 bitReader.readBits(len);

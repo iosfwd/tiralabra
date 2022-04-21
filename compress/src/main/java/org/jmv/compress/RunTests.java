@@ -17,7 +17,7 @@ public class RunTests {
 
         System.out.println("Running tests on test material!");
 
-        var lzenc = new LZEncoder(4096, 3, 258);
+        var lzenc = new LZEncoder(4096, 3, 258, 16);
 
         try {
             System.out.println("Running LZ encoding on dna.1MB");

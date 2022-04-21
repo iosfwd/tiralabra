@@ -9,8 +9,8 @@ import java.io.RandomAccessFile;
 /**
  * Luokka tiedostonlukuun jolla voi kelata tiedoston alkuun.
  */
-public class ResetableFileInputStream extends InputStream {
-    private RandomAccessFile raf;
+public final class ResetableFileInputStream extends InputStream {
+    private final RandomAccessFile raf;
     private long markedPosition = 0;
 
     /**
@@ -31,7 +31,7 @@ public class ResetableFileInputStream extends InputStream {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public int read() throws IOException {
+    final public int read() throws IOException {
         return raf.read();
     }
 
@@ -46,7 +46,7 @@ public class ResetableFileInputStream extends InputStream {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public int read(byte[] buffer, int offset, int length) throws IOException {
+    final public int read(byte[] buffer, int offset, int length) throws IOException {
         return raf.read(buffer, offset, length);
     }
 
@@ -55,14 +55,14 @@ public class ResetableFileInputStream extends InputStream {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void close() throws IOException {
+    final public void close() throws IOException {
         raf.close();
     }
 
     /**
      * Merkitse kelattava kohta.
      */
-    public void mark(int readLimit) {
+    final public void mark(int readLimit) {
         try {
             markedPosition = raf.getFilePointer();
         } catch (IOException e) {
@@ -75,7 +75,7 @@ public class ResetableFileInputStream extends InputStream {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void reset() throws IOException {
+    final public void reset() throws IOException {
         raf.seek(markedPosition);
     }
 }

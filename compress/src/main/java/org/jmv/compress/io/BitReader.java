@@ -8,8 +8,8 @@ import org.jmv.compress.huffman.HuffmanNode;
 /**
  * Luokka bittitason lukemiseen.
  */
-public class BitReader {
-    private InputStream input;
+public final class BitReader {
+    private final InputStream input;
     private int buffer;
     private int currentPosition;
     private final int bufferSize = 8;
@@ -37,7 +37,7 @@ public class BitReader {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public int readBit() throws IOException {
+    public final int readBit() throws IOException {
         --currentPosition;
         int b = ((buffer >>> currentPosition) & 1);
 
@@ -57,7 +57,7 @@ public class BitReader {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public int readBits(int length) throws IOException {
+    public final int readBits(int length) throws IOException {
         int x = 0;
 
         for (int i = 0; i < length; ++i) {
@@ -72,7 +72,7 @@ public class BitReader {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    private void fillBuffer() throws IOException {
+    private final void fillBuffer() throws IOException {
         var b = input.read();
 
         if (b == -1) {
@@ -89,7 +89,7 @@ public class BitReader {
      *
      * @return Totuusarvo sisääntulon tilasta.
      */
-    public boolean available() {
+    public final boolean available() {
         return !eof;
     }
 
@@ -98,7 +98,7 @@ public class BitReader {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public void close() throws IOException {
+    public final void close() throws IOException {
         input.close();
     }
 
@@ -109,7 +109,7 @@ public class BitReader {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    public HuffmanNode readTree() throws IOException {
+    public final HuffmanNode readTree() throws IOException {
         var leaf = readBit();
         if (leaf == 1) {
             return new HuffmanNode(readBits(8), -1, null, null, null);
@@ -121,7 +121,7 @@ public class BitReader {
     /**
      * Tallenna paikka.
      */
-    public void mark() {
+    public final void mark() {
         input.mark(4096);
         markedPosition = currentPosition;
         markedBuffer = buffer;
@@ -130,7 +130,7 @@ public class BitReader {
     /**
      * Palaa tallennetulle paikalle.
      */
-    public void reset() throws IOException {
+    public final void reset() throws IOException {
         input.reset();
         if (markedPosition == -1) {
             fillBuffer();

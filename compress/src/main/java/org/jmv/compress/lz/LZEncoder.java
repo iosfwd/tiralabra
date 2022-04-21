@@ -10,12 +10,13 @@ import org.jmv.compress.util.BinaryLogarithm;
 /**
  * Luokka joka säilöö LZ-enkoodaukseen käytettävät funktiot.
  */
-public class LZEncoder {
+public final class LZEncoder {
     private final int windowLength;
     private final int minMatchLength;
     private final int maxMatchLength;
     private final int offsetBitLength;
     private final int matchLengthBitLength;
+    private final HashChain hc;
 
     /**
      * Konstruktoi uusi LZ-enkoodaaja.
@@ -24,11 +25,11 @@ public class LZEncoder {
      * @param minMatchLength Osuman vähimmäispituus.
      * @param maxMatchLength Osuman enimmäispituus.
      */
-    public LZEncoder(int windowLength, int minMatchLength, int maxMatchLength) {
+    public LZEncoder(int windowLength, int minMatchLength, int maxMatchLength, int maxMatchCount) {
         this.windowLength = windowLength;
         this.minMatchLength = minMatchLength;
         this.maxMatchLength = maxMatchLength;
-
+        this.hc = new HashChain(windowLength, minMatchLength, maxMatchCount);
         offsetBitLength = BinaryLogarithm.log2(windowLength + 1);
         matchLengthBitLength = BinaryLogarithm.log2(maxMatchLength - minMatchLength + 1);
     };
@@ -43,7 +44,7 @@ public class LZEncoder {
      *
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
-    private int fillWindow(byte[] buffer, InputStream input) throws IOException {
+    private final int fillWindow(byte[] buffer, InputStream input) throws IOException {
         byte[] in = new byte[windowLength];
         int bytesRead = input.read(in, 0, windowLength);
 
@@ -70,7 +71,7 @@ public class LZEncoder {
      *
      * @return Kirjoitettujen tavujen lukumäärä.
      */
-    public int encode(InputStream input, OutputStream output) {
+    public final int encode(InputStream input, OutputStream output) {
         try {
             //Laske ja kirjoita lähtötiedoston pituus
             int length = 0;
@@ -79,22 +80,20 @@ public class LZEncoder {
             }
             input.reset();
 
-            var bitWriter = new BitWriter(output);
+            final var bitWriter = new BitWriter(output);
             bitWriter.writeBits(length, 32);
             bitWriter.writeBits(windowLength, 32);
             bitWriter.writeBits(minMatchLength, 32);
             bitWriter.writeBits(maxMatchLength, 32);
 
-            HashChain hc = new HashChain(windowLength, minMatchLength, 16);
-
-            byte[] buffer = new byte[2 * windowLength];
+            final byte[] buffer = new byte[2 * windowLength];
             int lookahead = fillWindow(buffer, input);
             while (lookahead != -1) {
                 int currentPosition = (2 * windowLength) - lookahead;
                 while (currentPosition < (2 * windowLength)) {
                     // Etsi pisin osuma nykyiselle kohdalle.
                     hc.findLongestMatch(buffer, currentPosition);
-                    int matchPosition = hc.getMatchPosition();
+                    final int matchPosition = hc.getMatchPosition();
                     int matchLength = hc.getMatchLength();
 
                     // Jos osuma oli liian lyhyt, koodaa se literaalina.
@@ -108,7 +107,7 @@ public class LZEncoder {
                         if (matchLength > maxMatchLength) {
                             matchLength = maxMatchLength;
                         }
-                        int offset = -(matchPosition - currentPosition);
+                        final int offset = -(matchPosition - currentPosition);
                         bitWriter.writeBit(1);
                         bitWriter.writeBits(offset, offsetBitLength);
                         bitWriter.writeBits(matchLength - minMatchLength, matchLengthBitLength);

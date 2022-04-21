@@ -6,11 +6,11 @@ import java.util.Comparator;
 /**
  * Kaanonisten Huffman-koodien dekoodaukseen käytettävien taulukkojen ja funktioiden säilövä luokka.
  */
-public class HuffmanCodebook {
-    private int[] alphabet;
-    private int[] first;
-    private int[] codes;
-    private int depth;
+public final class HuffmanCodebook {
+    private final int[] alphabet;
+    private final int[] first;
+    private final int[] codes;
+    private final int depth;
     private int length = 0;
 
     /**
@@ -65,7 +65,7 @@ public class HuffmanCodebook {
      *
      * @return Dekoodattu symboli.
      */
-    public int decode(int code) {
+    public final int decode(int code) {
         // Binäärihae oikea koodin pituus.
         int lowerBound = 0;
         int upperBound = depth - 1;
@@ -93,7 +93,7 @@ public class HuffmanCodebook {
      *
      * @return Viimeksi dekoodatun koodin pituus.
      */
-    public int getLength() {
+    public final int getLength() {
         return length;
     }
 
@@ -102,7 +102,7 @@ public class HuffmanCodebook {
      *
      * @return Maksimi koodin pituus.
      */
-    public int getDepth() {
+    public final int getDepth() {
         return depth;
     }
 }

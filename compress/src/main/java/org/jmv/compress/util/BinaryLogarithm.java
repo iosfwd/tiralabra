@@ -3,7 +3,7 @@ package org.jmv.compress.util;
 /**
  * Luokka kaksikantaisen logaritmin laskemiseen.
  */
-public class BinaryLogarithm {
+public final class BinaryLogarithm {
     /**
      * Laske 32 bittisen kokonaisluvun alas päin pyöristetty kaksikantainen logaritmi.
      *
@@ -11,7 +11,7 @@ public class BinaryLogarithm {
      *
      * @return floor(log2(n)).
      */
-    public static int log2(int n) {
+    public final static int log2(int n) {
         return 31 - Integer.numberOfLeadingZeros(n);
     }
 }
