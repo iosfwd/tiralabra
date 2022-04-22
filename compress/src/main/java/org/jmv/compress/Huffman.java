@@ -39,7 +39,7 @@ public class Huffman {
         try {
 
             if (mode.equals("d")) {
-                var input = new FileInputStream(inFile);
+                var input = new ResetableFileInputStream(inFile);
                 var output = new FileOutputStream(outFile);
 
                 long start = System.nanoTime();
