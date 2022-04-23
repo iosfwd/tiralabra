@@ -39,6 +39,15 @@ Ohjelmia saa muuten ajettua näin:
 
 	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.Huffman d polku/inputiin polku/outputiin`
 
+* LZHuffman-enkoodaus:
+
+	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.LZHuffman e polku/inputiin polku/outputiin`
+
+
+* LZHuffman-dekoodaus:
+
+	`$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.LZHuffman d polku/inputiin polku/outputiin`
+
 
 ## Viikkoraportit
 [Viikkoraportti 1](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/viikkoraportti1.md)
@@ -49,8 +58,12 @@ Ohjelmia saa muuten ajettua näin:
 
 [Viikkoraportti 4](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/viikkoraportti4.md)
 
+[Viikkoraportti 4](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/viikkoraportti5.md)
+
 ## Dokumentaatio
 
 [Määrittelydokumentti](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/m%C3%A4%C3%A4rittelydokumentti.md)
 
 [Testausdokumentti](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/testausdokumentti.md)
+
+[Toteutusdokumentti](https://github.com/iosfwd/tiralabra/blob/main/dokumentaatio/toteutusdokumentti.md)

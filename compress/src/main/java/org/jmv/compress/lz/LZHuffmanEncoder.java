@@ -3,14 +3,16 @@ package org.jmv.compress.lz;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
+import org.jmv.compress.huffman.HuffmanTable;
 import org.jmv.compress.io.BitWriter;
 import org.jmv.compress.util.BinaryLogarithm;
 
 /**
- * Luokka joka säilöö LZ-enkoodaukseen käytettävät funktiot.
+ * Luokka joka säilöö LZHuffman-enkoodaukseen käytettävät funktiot.
  */
-public final class LZEncoder {
+public final class LZHuffmanEncoder {
     private final int windowLength;
     private final int minMatchLength;
     private final int maxMatchLength;
@@ -19,13 +21,13 @@ public final class LZEncoder {
     private final HashChain hc;
 
     /**
-     * Konstruktoi uusi LZ-enkoodaaja.
+     * Konstruktoi uusi LZHuffman-enkoodaaja.
      *
      * @param windowLength Ikkunan pituus.
      * @param minMatchLength Osuman vähimmäispituus.
      * @param maxMatchLength Osuman enimmäispituus.
      */
-    public LZEncoder(int windowLength, int minMatchLength, int maxMatchLength, int maxMatchCount) {
+    public LZHuffmanEncoder(int windowLength, int minMatchLength, int maxMatchLength, int maxMatchCount) {
         this.windowLength = windowLength;
         this.minMatchLength = minMatchLength;
         this.maxMatchLength = maxMatchLength;
@@ -64,7 +66,7 @@ public final class LZEncoder {
     }
 
     /**
-     * LZ-enkoodaa sisääntulon ulostuloon.
+     * LZHuffman-enkoodaa sisääntulon ulostuloon.
      *
      * @param input Enkoodattava sisääntulo.
      * @param output Ulostulo johon enkoodataan.
@@ -74,13 +76,15 @@ public final class LZEncoder {
     public final int encode(InputStream input, OutputStream output) {
         try {
             //Laske ja kirjoita lähtötiedoston pituus
-            int length = 0;
-            while (input.read() != -1) {
-                ++length;
-            }
+            final var counts = scanCounts(input);
             input.reset();
 
+            final int length = Arrays.stream(counts).sum();
+
+            final var ht = new HuffmanTable(counts);
+
             final var bitWriter = new BitWriter(output);
+            bitWriter.writeTree(ht.getRoot());
             bitWriter.writeBits(length, 32);
             bitWriter.writeBits(windowLength, 32);
             bitWriter.writeBits(minMatchLength, 32);
@@ -96,11 +100,12 @@ public final class LZEncoder {
                     final int matchPosition = hc.getMatchPosition();
                     int matchLength = hc.getMatchLength();
 
-                    // Jos osuma oli liian lyhyt, koodaa se literaalina.
+                    // Jos osuma oli liian lyhyt, koodaa se Huffman-enkoodattuna literaalina.
                     // Muutoin koodaa se (offset, pituus)-parina.
                     if (matchLength < minMatchLength) {
                         bitWriter.writeBit(0);
-                        bitWriter.writeBits((int)buffer[currentPosition], 8);
+                        int literal = Byte.toUnsignedInt(buffer[currentPosition]);
+                        bitWriter.writeBits(ht.lookupCode(literal), ht.lookupLength(literal));
 
                         ++currentPosition;
                     } else {
@@ -127,5 +132,23 @@ public final class LZEncoder {
         }
 
         return 0;
+    }
+
+    /**
+     * Laskee symbolien esiintymät sisääntulosta.
+     *
+     * @param input Sisääntulo josta symbolien esiintymät lasketaan.
+     *
+     * @return Symbolien esiintymien lukumäärät taulukoituna.
+     */
+    private final static int[] scanCounts(InputStream input) throws IOException {
+        final int[] counts = new int[256];
+
+        int token = 0;
+        while ((token = input.read()) != -1) {
+            ++counts[token];
+        }
+
+        return counts;
     }
 }

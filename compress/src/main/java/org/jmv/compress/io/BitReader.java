@@ -16,6 +16,8 @@ public final class BitReader {
     private boolean eof = false;
     private int markedPosition = -1;
     private int markedBuffer;
+    private int bytesRead = 0;
+    private int bytesReadAtMark = -1;
 
     /**
      * Konstruktoi uusi bittitason lukija InputStream-luokasta.
@@ -82,6 +84,7 @@ public final class BitReader {
 
         buffer = b;
         currentPosition = 8;
+        ++bytesRead;
     }
 
     /**
@@ -125,15 +128,20 @@ public final class BitReader {
         input.mark(4096);
         markedPosition = currentPosition;
         markedBuffer = buffer;
+        bytesReadAtMark = bytesRead;
     }
 
     /**
      * Palaa tallennetulle paikalle.
      */
     public final void reset() throws IOException {
-        input.reset();
         if (markedPosition == -1) {
+            input.reset();
             fillBuffer();
+        } else if (bytesReadAtMark != bytesRead) {
+            input.reset();
+            currentPosition = markedPosition;
+            buffer = markedBuffer;
         } else {
             currentPosition = markedPosition;
             buffer = markedBuffer;

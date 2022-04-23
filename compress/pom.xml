@@ -48,6 +48,7 @@
 	    <excludes>
 	      <exclude>org/jmv/compress/LZ.class</exclude>
 	      <exclude>org/jmv/compress/Huffman.class</exclude>
+	      <exclude>org/jmv/compress/LZHuffman.class</exclude>
 	      <exclude>org/jmv/compress/RunTests.class</exclude>
 	    </excludes>
 	  </configuration>

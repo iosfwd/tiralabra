@@ -7,14 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.jmv.compress.io.ResetableFileInputStream;
-import org.jmv.compress.lz.LZDecoder;
-import org.jmv.compress.lz.LZEncoder;
+import org.jmv.compress.lz.LZHuffmanDecoder;
+import org.jmv.compress.lz.LZHuffmanEncoder;
 
-public class LZ {
+public class LZHuffman {
     public static void main(String[] args) {
         if (args.length < 3) {
             System.err.println("Not enough arguments!");
-            System.err.println("Usage: LZ [d|e] path/to/input/file path/to/output/file");
+            System.err.println("Usage: LZHuffman [d|e] path/to/input/file path/to/output/file");
             System.exit(1);
         }
 
@@ -22,7 +22,7 @@ public class LZ {
 
         if (mode.length() != 1 || (!mode.equals("d") && !mode.equals("e"))) {
             System.err.println("Mode must be either d or e!");
-            System.err.println("Usage: LZ [d|e] path/to/input/file path/to/output/file");
+            System.err.println("Usage: LZHuffman [d|e] path/to/input/file path/to/output/file");
             System.exit(1);
         }
 
@@ -39,12 +39,12 @@ public class LZ {
         try {
             if (mode.equals("d")) {
 
-                var input = new FileInputStream(inFile);
+                var input = new ResetableFileInputStream(inFile);
                 var output = new FileOutputStream(outFile);
 
                 long start = System.nanoTime();
 
-                int decoded = LZDecoder.decode(input, output);
+                int decoded = LZHuffmanDecoder.decode(input, output);
 
                 long timeTaken = System.nanoTime() - start;
 
@@ -59,8 +59,8 @@ public class LZ {
 
                 long start = System.nanoTime();
 
-                var lzenc = new LZEncoder(1 << 15, 3, 258, 32);
-                int encoded = lzenc.encode(input, output);
+                var lzhufenc = new LZHuffmanEncoder(1 << 15, 3, 258, 32);
+                int encoded = lzhufenc.encode(input, output);
 
                 long timeTaken = System.nanoTime() - start;
 
