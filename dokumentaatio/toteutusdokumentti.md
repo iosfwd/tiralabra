@@ -209,8 +209,10 @@ aputaulukkoa, missä h = O(log n) on puun korkeus:
 * Taulukko C[1,h] tallentaa alkioon C[i] symbolin L[F[i]]
   koodin. Jos i-pitkiä koodeja ei ole, niin C[i] = C[i + 1] / 2.
 
-Prefiksikoodaukseen vaadittava järjestäminen dominoi aputaulukkojen
-rakentamista, joten sen aikavaativuus on O(|A| log |A|).
+Prefiksikoodauksen jälkeen aputaulukot saa rakennettua lineaarisesti
+skannaamalla. Prefiksikoodaukseen vaadittava järjestäminen dominoi
+aputaulukkojen rakentamista, joten sen aikavaativuus on O(|A| log
+|A|).
 
 Yhden symbolin dekoodaus sisääntulosta tapahtuu seuraavasti:
 
