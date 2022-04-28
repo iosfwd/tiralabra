@@ -217,9 +217,9 @@ Yhden symbolin dekoodaus sisääntulosta tapahtuu seuraavasti:
 
       N <- h verran bittejä sisääntulosta
 
-      Etsi binäärihakua käyttäen i siten että (N < C[i+1] << h - i - 1) ja (N >= C[i] << h - i)
+      Etsi binäärihakua käyttäen i siten että (N < C[i+1] << (h - i - 1)) ja (N >= C[i] << (h - i))
 
-      N <- N >> h - i
+      N <- (N >> h - i)
 
       Siirry i eteenpäin sisääntulossa
 
@@ -305,3 +305,10 @@ Lempel-Ziv-purkaminen tapahtuu seuraavasti:
 Purkamista varten sisääntulo täytyy käydä kerran läpi, ja kopioiminen
 vie aikaa lineaarisesti kopioitavan osuuden pituuden verran, joten
 purkamisen aikavaativuus on O(n), missä n on sisääntulon koko.
+
+
+## Lähteet
+
+Gonzalo Navarro. Compact Data Structures: A Practical Approach.
+
+Kunihiko Sadakane. An improvement on hash-based algorithms for searching the longest-match string used in LZ77-type data compression.
