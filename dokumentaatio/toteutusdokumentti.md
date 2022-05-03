@@ -158,6 +158,11 @@ O(|A| log |A|) aikaa, joten se dominoi puun rakentamista. Näin ollen
 järjestäminen huomioituna Huffman-puun rakentamisen aikavaativuus on
 O(|A| log |A|).
 
+
+Huffman-puun tilavaativuus on O(|A|) koska se konstruktoi binääripuun
+syötteen aakkostosta.
+
+
 Huffman-koodien pituudet saadaan generoitua kulkemalla puuta rekursiivisesti
 ja pitämällä kirjaa syvyydestä kunnes saavutaan lehtisolmuun.
 
@@ -191,6 +196,10 @@ Sisääntulon koodaaminen ulostuloon on lineaarinen suhteessa
 sisääntulon kokoon, koska sisääntulo täytyy kulkea läpi kerran,
 koodaten symboli ulostuloon yksi kerrallaan, joten n pitkän
 sisääntulon koodauksen aikavaativuus on O(n).
+
+
+Hyppytaulukon tilavaativuus on O(|A|), koska se tallentaa koodin
+jokaiselle syötteen aakkoston symbolille.
 
 
 ### Huffman-dekoodaus
@@ -274,6 +283,11 @@ etsii osumia enintään ikkunan pituuden päästä nykyisestä kohdasta,
 joten jos w olisi ikkunan pituus, niin aikavaativuus olisi O(nw).
 
 
+Liukuvaa ikkunaa käyttävän Lempel-Ziv-pakkaamisen tilavaativuus on
+O(w) koska sen täytyy pitää muistissa ikkunan pituuden verran aiemmin
+käsiteltyä syötettä.
+
+
 ### Lempel-Ziv-purkaminen
 
 Lempel-Ziv-purkaminen tapahtuu seuraavasti:
@@ -308,6 +322,8 @@ Purkamista varten sisääntulo täytyy käydä kerran läpi, ja kopioiminen
 vie aikaa lineaarisesti kopioitavan osuuden pituuden verran, joten
 purkamisen aikavaativuus on O(n), missä n on sisääntulon koko.
 
+Lempel-Ziv-purkamisen tilavaativuus myös on O(w) koska sen täytyy
+pitää muistissa ikkunan pituuden verran aiemmin käsiteltyä syötettä.
 
 ## Lähteet
 

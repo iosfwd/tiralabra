@@ -19,8 +19,6 @@ public class RunTests {
 
         System.out.println("Running tests on test material!");
 
-
-
         try {
             System.out.print("\u001B[31m");
             System.out.println("Running LZ encoding on dna.1MB");
