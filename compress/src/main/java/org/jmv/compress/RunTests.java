@@ -69,6 +69,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -123,6 +126,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -178,6 +184,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -234,6 +243,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -288,6 +300,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -343,6 +358,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -398,6 +416,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -452,6 +473,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -507,6 +531,9 @@ public class RunTests {
 
             input.close();
             output.close();
+
+            inFile.delete();
+            outFile.delete();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
