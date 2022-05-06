@@ -209,58 +209,58 @@ public class RunBigTests {
     public static void main(String[] args) {
         System.out.println("Running tests on big test material!");
 
-        testLZEncode("test_material/dna.10MB", "test_material/dna.10MB.lzenc");
+        testLZEncode("big_test_material/dna.10MB", "big_test_material/dna.10MB.lzenc");
         System.gc();
 
-        testLZDecode("test_material/dna.10MB.lzenc", "test_material/dna.10MB.lzdec");
+        testLZDecode("big_test_material/dna.10MB.lzenc", "big_test_material/dna.10MB.lzdec");
         System.gc();
 
-        testHuffmanEncode("test_material/dna.10MB", "test_material/dna.10MB.huffenc");
+        testHuffmanEncode("big_test_material/dna.10MB", "big_test_material/dna.10MB.huffenc");
         System.gc();
 
-        testHuffmanDecode("test_material/dna.10MB.huffenc", "test_material/dna.10MB.huffdec");
+        testHuffmanDecode("big_test_material/dna.10MB.huffenc", "big_test_material/dna.10MB.huffdec");
         System.gc();
 
-        testLZHuffmanEncode("test_material/dna.10MB", "test_material/dna.10MB.lzhufenc");
+        testLZHuffmanEncode("big_test_material/dna.10MB", "big_test_material/dna.10MB.lzhufenc");
         System.gc();
 
-        testLZHuffmanDecode("test_material/dna.10MB.lzhufenc", "test_material/dna.10MB.lzhufdec");
+        testLZHuffmanDecode("big_test_material/dna.10MB.lzhufenc", "big_test_material/dna.10MB.lzhufdec");
         System.gc();
 
-        testLZEncode("test_material/english.10MB", "test_material/english.10MB.lzenc");
+        testLZEncode("big_test_material/english.10MB", "big_test_material/english.10MB.lzenc");
         System.gc();
 
-        testLZDecode("test_material/english.10MB.lzenc", "test_material/english.10MB.lzdec");
+        testLZDecode("big_test_material/english.10MB.lzenc", "big_test_material/english.10MB.lzdec");
         System.gc();
 
-        testHuffmanEncode("test_material/english.10MB", "test_material/english.10MB.huffenc");
+        testHuffmanEncode("big_test_material/english.10MB", "big_test_material/english.10MB.huffenc");
         System.gc();
 
-        testHuffmanDecode("test_material/english.10MB.huffenc", "test_material/english.10MB.huffdec");
+        testHuffmanDecode("big_test_material/english.10MB.huffenc", "big_test_material/english.10MB.huffdec");
         System.gc();
 
-        testLZHuffmanEncode("test_material/english.10MB", "test_material/english.10MB.lzhufenc");
+        testLZHuffmanEncode("big_test_material/english.10MB", "big_test_material/english.10MB.lzhufenc");
         System.gc();
 
-        testLZHuffmanDecode("test_material/english.10MB.lzhufenc", "test_material/english.10MB.lzhufdec");
+        testLZHuffmanDecode("big_test_material/english.10MB.lzhufenc", "big_test_material/english.10MB.lzhufdec");
         System.gc();
 
-        testLZEncode("test_material/xml.10MB", "test_material/xml.10MB.lzenc");
+        testLZEncode("big_test_material/xml.10MB", "big_test_material/xml.10MB.lzenc");
         System.gc();
 
-        testLZDecode("test_material/xml.10MB.lzenc", "test_material/xml.10MB.lzdec");
+        testLZDecode("big_test_material/xml.10MB.lzenc", "big_test_material/xml.10MB.lzdec");
         System.gc();
 
-        testHuffmanEncode("test_material/xml.10MB", "test_material/xml.10MB.huffenc");
+        testHuffmanEncode("big_test_material/xml.10MB", "big_test_material/xml.10MB.huffenc");
         System.gc();
 
-        testHuffmanDecode("test_material/xml.10MB.huffenc", "test_material/xml.10MB.huffdec");
+        testHuffmanDecode("big_test_material/xml.10MB.huffenc", "big_test_material/xml.10MB.huffdec");
         System.gc();
 
-        testLZHuffmanEncode("test_material/xml.10MB", "test_material/xml.10MB.lzhufenc");
+        testLZHuffmanEncode("big_test_material/xml.10MB", "big_test_material/xml.10MB.lzhufenc");
         System.gc();
 
-        testLZHuffmanDecode("test_material/xml.10MB.lzhufenc", "test_material/xml.10MB.lzhufdec");
+        testLZHuffmanDecode("big_test_material/xml.10MB.lzhufenc", "big_test_material/xml.10MB.lzhufdec");
         System.gc();
     }
 }
