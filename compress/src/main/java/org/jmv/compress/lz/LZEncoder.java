@@ -73,7 +73,7 @@ public final class LZEncoder {
      */
     public final int encode(InputStream input, OutputStream output) {
         try {
-            //Laske ja kirjoita lähtötiedoston pituus
+            // Laske ja kirjoita lähtötiedoston pituus.
             int length = 0;
             while (input.read() != -1) {
                 ++length;

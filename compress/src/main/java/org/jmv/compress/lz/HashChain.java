@@ -74,8 +74,15 @@ public final class HashChain {
      * @param pos LZ-puskurin kohta jolle löytyi osuma.
      * @param matchPos Kohta josta osuma löytyi.
      */
-    private final int findMatchLength(byte[] buffer, int pos, int matchPos) {
+    private final int findMatchLength(byte[] buffer, int pos, int matchPos, int longestMatch) {
         int matchLen = 0;
+
+        if (pos + longestMatch >= buffer.length) {
+            return 0;
+        } else if (buffer[pos] != buffer[matchPos] &&
+                   buffer[pos + longestMatch] != buffer[matchPos + longestMatch]) {
+            return 0;
+        }
 
         for (int i = 0; (pos + i) < buffer.length && (matchPos + i) < pos; ++i) {
             if (buffer[pos + i] != buffer[matchPos + i]) {
@@ -98,12 +105,16 @@ public final class HashChain {
         final int insh = hash(buffer, pos);
         int next = head[insh];
 
+        // matchPosition = 0;
+        // matchLength = 0;
+
         final int windowBegin = pos - windowLength;
         int found = 0;
         int longestMatch = 0;
         int matchPos = 0;
         while (next > windowBegin && found < matchLimit) {
-            final int length = findMatchLength(buffer, pos, next);
+            // final int length = findMatchLength(buffer, pos, next);
+            final int length = findMatchLength(buffer, pos, next, longestMatch);
 
             if (length > longestMatch) {
                 longestMatch = length;

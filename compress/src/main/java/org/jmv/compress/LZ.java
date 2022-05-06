@@ -36,6 +36,11 @@ public class LZ {
 
         var original = inFile.length();
 
+        int lzWindowLength = 1 << 15;
+        int lzMinMatchLength = 3;
+        int lzMaxMatchLength = 258;
+        int lzMaxMatches = 128;
+
         try {
             if (mode.equals("d")) {
 
@@ -59,7 +64,7 @@ public class LZ {
 
                 long start = System.nanoTime();
 
-                var lzenc = new LZEncoder(1 << 15, 3, 258, 32);
+                var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
                 int encoded = lzenc.encode(input, output);
 
                 long timeTaken = System.nanoTime() - start;

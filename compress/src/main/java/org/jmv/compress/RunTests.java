@@ -17,13 +17,18 @@ import org.jmv.compress.lz.LZHuffmanEncoder;
 public class RunTests {
     public static void main(String[] args) {
 
+        int lzWindowLength = 1 << 15;
+        int lzMinMatchLength = 3;
+        int lzMaxMatchLength = 258;
+        int lzMaxMatches = 128;
+
         System.out.println("Running tests on test material!");
 
         try {
             System.out.print("\u001B[31m");
             System.out.println("Running LZ encoding on dna.1MB");
             System.out.print("\u001B[0m");
-            var lzenc = new LZEncoder(1 << 15, 3, 258, 32);
+            var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
             var inFile = new File("test_material/dna.1MB");
             var outFile = new File("test_material/dna.1MB.lzenc");
             var original = inFile.length();
@@ -138,7 +143,7 @@ public class RunTests {
             System.out.print("\u001B[31m");
             System.out.println("Running LZHuffman encoding on dna.1MB");
             System.out.print("\u001B[0m");
-            var lzhufenc = new LZHuffmanEncoder(1 << 15, 3, 258, 32);
+            var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
             var inFile = new File("test_material/dna.1MB");
             var outFile = new File("test_material/dna.1MB.lzhufenc");
             var original = inFile.length();
@@ -197,7 +202,7 @@ public class RunTests {
             System.out.print("\u001B[31m");
             System.out.println("Running LZ encoding on english.1MB");
             System.out.print("\u001B[0m");
-            var lzenc = new LZEncoder(1 << 15, 3, 258, 32);
+            var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
             var inFile = new File("test_material/english.1MB");
             var outFile = new File("test_material/english.1MB.lzenc");
             var original = inFile.length();
@@ -312,7 +317,7 @@ public class RunTests {
             System.out.print("\u001B[31m");
             System.out.println("Running LZHuffman encoding on english.1MB");
             System.out.print("\u001B[0m");
-            var lzhufenc = new LZHuffmanEncoder(1 << 15, 3, 258, 32);
+            var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
             var inFile = new File("test_material/english.1MB");
             var outFile = new File("test_material/english.1MB.lzhufenc");
             var original = inFile.length();
@@ -370,7 +375,7 @@ public class RunTests {
             System.out.print("\u001B[31m");
             System.out.println("Running LZ encoding on xml.1MB");
             System.out.print("\u001B[0m");
-            var lzenc = new LZEncoder(1 << 15, 3, 258, 32);
+            var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
             var inFile = new File("test_material/xml.1MB");
             var outFile = new File("test_material/xml.1MB.lzenc");
             var original = inFile.length();
@@ -485,7 +490,7 @@ public class RunTests {
             System.out.print("\u001B[31m");
             System.out.println("Running LZHuffman encoding on xml.1MB");
             System.out.print("\u001B[0m");
-            var lzhufenc = new LZHuffmanEncoder(1 << 15, 3, 258, 32);
+            var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
             var inFile = new File("test_material/xml.1MB");
             var outFile = new File("test_material/xml.1MB.lzhufenc");
             var original = inFile.length();
