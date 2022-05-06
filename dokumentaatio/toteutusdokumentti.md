@@ -95,6 +95,35 @@ ulostuloon.
   HashChain tallentaa ja yrittää hakea liukuvassa ikkunassa tavattujen
   symbolien sijainnit toistuvuuksien etsimistä varten.
 
+## IO
+
+### Luokat
+
+* BitWriter
+
+  BitWriter toteuttaa bittitason kirjoittamisen. Sillä voi kirjoittaa
+  yksittäisiä bittejä ja vaihtelevan pituisia bittijonoja.
+
+* BitReader
+
+  BitReader toteuttaa bittitason lukemisen. Sillä voi lukea
+  yksittäisiä bittejä ja vaihtelevan pituisia bittijonoja.
+
+* ResetableFileInputStream
+
+  Kelattava tiedostonluku joka käärii alleen Javan
+  RandomAccessFile-luokan. Javan oma FileInputStream-luokka ei tue
+  mark()- ja reset()-metodeja.
+
+## Hyötyluokat
+
+### Luokat
+
+* BinaryLogarithm
+
+  Toteuttaa kaksikantaisen logaritmin kokonaisluvuille.
+
+
 
 ## Aikavaativuudet
 
