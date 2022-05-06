@@ -15,534 +15,252 @@ import org.jmv.compress.lz.LZHuffmanDecoder;
 import org.jmv.compress.lz.LZHuffmanEncoder;
 
 public class RunBigTests {
+    private static final int lzWindowLength = 1 << 15;
+    private static final int lzMinMatchLength = 3;
+    private static final int lzMaxMatchLength = 258;
+    private static final int lzMaxMatches = 128;
+
+    private static void testLZEncode(String inFileName, String outFileName) {
+        try {
+            System.out.print("\u001B[31m");
+            System.out.println("Running LZ encoding on " + inFileName);
+            System.out.print("\u001B[0m");
+            var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
+            var inFile = new File(inFileName);
+            var outFile = new File(outFileName);
+            var original = inFile.length();
+            var input = new ResetableFileInputStream(inFile);
+            var output = new FileOutputStream(outFile);
+
+            long start = System.nanoTime();
+
+            int encoded = lzenc.encode(input, output);
+
+            long timeTaken = System.nanoTime() - start;
+
+            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
+            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
+            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+
+            input.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private static void testLZDecode(String inFileName, String outFileName) {
+        try {
+            System.out.print("\u001B[32m");
+            System.out.println("Running LZ decoding on " + inFileName);
+            System.out.print("\u001B[0m");
+            var inFile = new File(inFileName);
+            var outFile = new File(outFileName);
+            var original = inFile.length();
+            var input = new FileInputStream(inFile);
+            var output = new FileOutputStream(outFile);
+
+            long start = System.nanoTime();
+
+            int decoded = LZDecoder.decode(input, output);
+
+            long timeTaken = System.nanoTime() - start;
+
+            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
+            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
+            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+
+            input.close();
+            output.close();
+
+            inFile.delete();
+            outFile.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private static void testHuffmanEncode(String inFileName, String outFileName) {
+        try {
+            System.out.print("\u001B[31m");
+            System.out.println("Running Huffman encoding on " + inFileName);
+            System.out.print("\u001B[0m");
+            var inFile = new File(inFileName);
+            var outFile = new File(outFileName);
+            var original = inFile.length();
+            var input = new ResetableFileInputStream(inFile);
+            var output = new FileOutputStream(outFile);
+
+            long start = System.nanoTime();
+
+            int encoded = HuffmanEncoder.encode(input, output);
+
+            long timeTaken = System.nanoTime() - start;
+
+            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
+            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
+            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+
+            input.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+
+    private static void testHuffmanDecode(String inFileName, String outFileName) {
+        try {
+            System.out.print("\u001B[32m");
+            System.out.println("Running Huffman decoding on " + inFileName);
+            System.out.print("\u001B[0m");
+            var inFile = new File(inFileName);
+            var outFile = new File(outFileName);
+            var original = inFile.length();
+            var input = new ResetableFileInputStream(inFile);
+            var output = new FileOutputStream(outFile);
+
+            long start = System.nanoTime();
+
+            int decoded = HuffmanDecoder.decode(input, output);
+
+            long timeTaken = System.nanoTime() - start;
+
+            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
+            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
+            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+
+            input.close();
+            output.close();
+
+            inFile.delete();
+            outFile.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private static void testLZHuffmanEncode(String inFileName, String outFileName) {
+        try {
+            System.out.print("\u001B[31m");
+            System.out.println("Running LZHuffman encoding on dna.1MB");
+            System.out.print("\u001B[0m");
+            var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
+            var inFile = new File(inFileName);
+            var outFile = new File(outFileName);
+            var original = inFile.length();
+            var input = new ResetableFileInputStream(inFile);
+            var output = new FileOutputStream(outFile);
+
+            long start = System.nanoTime();
+
+            int encoded = lzhufenc.encode(input, output);
+
+            long timeTaken = System.nanoTime() - start;
+
+            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
+            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
+            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+
+            input.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private static void testLZHuffmanDecode(String inFileName, String outFileName) {
+        try {
+            System.out.print("\u001B[32m");
+            System.out.println("Running LZHuffman decoding on " + inFileName);
+            System.out.print("\u001B[0m");
+            var inFile = new File(inFileName);
+            var outFile = new File(outFileName);
+            var original = inFile.length();
+            var input = new ResetableFileInputStream(inFile);
+            var output = new FileOutputStream(outFile);
+
+            long start = System.nanoTime();
+
+            int decoded = LZHuffmanDecoder.decode(input, output);
+
+            long timeTaken = System.nanoTime() - start;
+
+            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
+            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
+            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+
+            input.close();
+            output.close();
+
+            inFile.delete();
+            outFile.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
     public static void main(String[] args) {
-
-        int lzWindowLength = 1 << 15;
-        int lzMinMatchLength = 3;
-        int lzMaxMatchLength = 258;
-        int lzMaxMatches = 128;
-
         System.out.println("Running tests on big test material!");
 
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running LZ encoding on dna.10MB");
-            System.out.print("\u001B[0m");
-            var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
-            var inFile = new File("big_test_material/dna.10MB");
-            var outFile = new File("big_test_material/dna.10MB.lzenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
+        testLZEncode("test_material/dna.10MB", "test_material/dna.10MB.lzenc");
+        System.gc();
 
-            long start = System.nanoTime();
+        testLZDecode("test_material/dna.10MB.lzenc", "test_material/dna.10MB.lzdec");
+        System.gc();
 
-            int encoded = lzenc.encode(input, output);
+        testHuffmanEncode("test_material/dna.10MB", "test_material/dna.10MB.huffenc");
+        System.gc();
 
-            long timeTaken = System.nanoTime() - start;
+        testHuffmanDecode("test_material/dna.10MB.huffenc", "test_material/dna.10MB.huffdec");
+        System.gc();
 
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+        testLZHuffmanEncode("test_material/dna.10MB", "test_material/dna.10MB.lzhufenc");
+        System.gc();
 
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        testLZHuffmanDecode("test_material/dna.10MB.lzhufenc", "test_material/dna.10MB.lzhufdec");
+        System.gc();
 
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running LZ decoding on dna.10MB.lzenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/dna.10MB.lzenc");
-            var outFile = new File("big_test_material/dna.10MB.lzdec");
-            var original = inFile.length();
-            var input = new FileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
+        testLZEncode("test_material/english.10MB", "test_material/english.10MB.lzenc");
+        System.gc();
 
-            long start = System.nanoTime();
+        testLZDecode("test_material/english.10MB.lzenc", "test_material/english.10MB.lzdec");
+        System.gc();
 
-            int decoded = LZDecoder.decode(input, output);
+        testHuffmanEncode("test_material/english.10MB", "test_material/english.10MB.huffenc");
+        System.gc();
 
-            long timeTaken = System.nanoTime() - start;
+        testHuffmanDecode("test_material/english.10MB.huffenc", "test_material/english.10MB.huffdec");
+        System.gc();
 
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
+        testLZHuffmanEncode("test_material/english.10MB", "test_material/english.10MB.lzhufenc");
+        System.gc();
 
-            input.close();
-            output.close();
+        testLZHuffmanDecode("test_material/english.10MB.lzhufenc", "test_material/english.10MB.lzhufdec");
+        System.gc();
 
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        testLZEncode("test_material/xml.10MB", "test_material/xml.10MB.lzenc");
+        System.gc();
 
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running Huffman encoding on dna.10MB");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/dna.10MB");
-            var outFile = new File("big_test_material/dna.10MB.huffenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
+        testLZDecode("test_material/xml.10MB.lzenc", "test_material/xml.10MB.lzdec");
+        System.gc();
 
-            long start = System.nanoTime();
+        testHuffmanEncode("test_material/xml.10MB", "test_material/xml.10MB.huffenc");
+        System.gc();
 
-            int encoded = HuffmanEncoder.encode(input, output);
+        testHuffmanDecode("test_material/xml.10MB.huffenc", "test_material/xml.10MB.huffdec");
+        System.gc();
 
-            long timeTaken = System.nanoTime() - start;
+        testLZHuffmanEncode("test_material/xml.10MB", "test_material/xml.10MB.lzhufenc");
+        System.gc();
 
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running Huffman decoding on dna.10MB.huffenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/dna.10MB.huffenc");
-            var outFile = new File("big_test_material/dna.10MB.huffdec");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = HuffmanDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running LZHuffman encoding on dna.10MB");
-            System.out.print("\u001B[0m");
-            var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
-            var inFile = new File("big_test_material/dna.10MB");
-            var outFile = new File("big_test_material/dna.10MB.lzhufenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int encoded = lzhufenc.encode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running LZHuffman decoding on dna.10MB.lzhufenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/dna.10MB.lzhufenc");
-            var outFile = new File("big_test_material/dna.10MB.lzhufdec");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = LZHuffmanDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running LZ encoding on english.10MB");
-            System.out.print("\u001B[0m");
-            var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
-            var inFile = new File("big_test_material/english.10MB");
-            var outFile = new File("big_test_material/english.10MB.lzenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int encoded = lzenc.encode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running LZ decoding on english.10MB.lzenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/english.10MB.lzenc");
-            var outFile = new File("big_test_material/english.10MB.lzdec");
-            var original = inFile.length();
-            var input = new FileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = LZDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running Huffman encoding on english.10MB");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/english.10MB");
-            var outFile = new File("big_test_material/english.10MB.huffenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int encoded = HuffmanEncoder.encode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running Huffman decoding on english.10MB.huffenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/english.10MB.huffenc");
-            var outFile = new File("big_test_material/english.10MB.huffdec");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = HuffmanDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running LZHuffman encoding on english.10MB");
-            System.out.print("\u001B[0m");
-            var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
-            var inFile = new File("big_test_material/english.10MB");
-            var outFile = new File("big_test_material/english.10MB.lzhufenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int encoded = lzhufenc.encode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running LZHuffman decoding on english.10MB.lzhufenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/english.10MB.lzhufenc");
-            var outFile = new File("big_test_material/english.10MB.lzhufdec");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = LZHuffmanDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running LZ encoding on xml.10MB");
-            System.out.print("\u001B[0m");
-            var lzenc = new LZEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
-            var inFile = new File("big_test_material/xml.10MB");
-            var outFile = new File("big_test_material/xml.10MB.lzenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int encoded = lzenc.encode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running LZ decoding on xml.10MB.lzenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/xml.10MB.lzenc");
-            var outFile = new File("big_test_material/xml.10MB.lzdec");
-            var original = inFile.length();
-            var input = new FileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = LZDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running Huffman encoding on xml.10MB");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/xml.10MB");
-            var outFile = new File("big_test_material/xml.10MB.huffenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int encoded = HuffmanEncoder.encode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running Huffman decoding on xml.10MB.huffenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/xml.10MB.huffenc");
-            var outFile = new File("big_test_material/xml.10MB.huffdec");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = HuffmanDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[31m");
-            System.out.println("Running LZHuffman encoding on xml.10MB");
-            System.out.print("\u001B[0m");
-            var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
-            var inFile = new File("big_test_material/xml.10MB");
-            var outFile = new File("big_test_material/xml.10MB.lzhufenc");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int encoded = lzhufenc.encode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Encoded " + original + " bytes to " + encoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)encoded / (double)original));
-            System.out.printf("    Time taken to encode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        try {
-            System.out.print("\u001B[32m");
-            System.out.println("Running LZHuffman decoding on xml.10MB.lzhufenc");
-            System.out.print("\u001B[0m");
-            var inFile = new File("big_test_material/xml.10MB.lzhufenc");
-            var outFile = new File("big_test_material/xml.10MB.lzhufdec");
-            var original = inFile.length();
-            var input = new ResetableFileInputStream(inFile);
-            var output = new FileOutputStream(outFile);
-
-            long start = System.nanoTime();
-
-            int decoded = LZHuffmanDecoder.decode(input, output);
-
-            long timeTaken = System.nanoTime() - start;
-
-            System.out.println("    Decoded " + original + " bytes to " + decoded + " bytes");
-            System.out.printf("    Achieved compression ratio of %.3f\n", ((double)original / (double)decoded));
-            System.out.printf("    Time taken to decode was %.5f seconds\n", ((double)timeTaken / (double)1000000000));
-
-            input.close();
-            output.close();
-
-            inFile.delete();
-            outFile.delete();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
+        testLZHuffmanDecode("test_material/xml.10MB.lzhufenc", "test_material/xml.10MB.lzhufdec");
+        System.gc();
     }
 }
