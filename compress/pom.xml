@@ -50,6 +50,7 @@
 	      <exclude>org/jmv/compress/Huffman.class</exclude>
 	      <exclude>org/jmv/compress/LZHuffman.class</exclude>
 	      <exclude>org/jmv/compress/RunTests.class</exclude>
+	      <exclude>org/jmv/compress/RunBigTests.class</exclude>
 	    </excludes>
 	  </configuration>
 	  <executions>
