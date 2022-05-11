@@ -36,6 +36,26 @@ testimateriaalia tiiviille tietorakenteille ja tiedostonpakkaukselle.
 Testidata koostuu kolmesta tiedostosta, joista ensimmäinen on
 DNA:ta, toinen on englannin kielistä tekstiä, ja kolmas on XML-kieltä.
 
+Testidatan kuvaukset ovat seuraavat:
+
+- dna: This file is a sequence of newline-separated gene DNA sequences
+  (without descriptions, just the bare DNA code) obtained from files
+  01hgp10 to 21hgp10, plus 0xhgp10 and 0yhgp10, from Gutenberg
+  Project. Each of the 4 bases is coded as an uppercase letter
+  A,G,C,T, and there are a few occurrences of other special
+  characters.
+
+
+- english: This file is the concatenation of English text files
+  selected from etext02 to etext05 collections of Gutenberg Project.
+  We deleted the headers related to the project so as to leave just
+  the real text.
+
+
+- xml: This file is an XML that provides bibliographic information on
+  major computer science journals and proceedings and it is obtained
+  from dblp.uni-trier.de.
+
 
 | Lempel-Ziv   | dna.10MB  | english.10MB | xml.10MB  |
 |:-------------|:----------|:-------------|:----------|
