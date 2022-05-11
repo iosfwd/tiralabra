@@ -140,40 +140,40 @@ jonka avulla aakkoston alkioille saadaan optimaaliset koodit.
 Huffman-puun rakentaminen tapahtuu seuraavasti:
 
 
-    Sisääntulo: taulukko S[1,[A]] missä kukin alkio sisältää (symboli,
-                symbolin paino)-parin.
+	Sisääntulo: taulukko S[1,[A]] missä kukin alkio sisältää (symboli,
+				symbolin paino)-parin.
 
-    Ulostulo: Huffman-puun juurisolmu
+	Ulostulo: Huffman-puun juurisolmu
 
 
-    Järjestä taulukko kasvavaan järjestykseen symbolien painojen mukaan.
+	Järjestä taulukko kasvavaan järjestykseen symbolien painojen mukaan.
 
-    Luo S:ästä linkitetty listä L missä i:nnes alkio säilöö (symboli,
-    symbolin paino, seuraava alkio, vasen lehti, oikea
-    lehti)-viisikon, missä seuraava alkio on on osoitin S[i + 1]
-    vastaavaan alkioon, ja lehdet ovat null-osoittimia.
+	Luo S:ästä linkitetty listä L missä i:nnes alkio säilöö (symboli,
+	symbolin paino, seuraava alkio, vasen lehti, oikea
+	lehti)-viisikon, missä seuraava alkio on on osoitin S[i + 1]
+	vastaavaan alkioon, ja lehdet ovat null-osoittimia.
 
-    I <- L (listan ensimmäinen alkio)
+	I <- L (listan ensimmäinen alkio)
 
-    while L.seuraava_alkio != null {
+	while L.seuraava_alkio != null {
 
-          Luo alkio N jolla N.vasen <- L:n pää, N.oikea <- L.seuraava, N.paino <- (L.paino + L.seuraava.paino)
+		  Luo alkio N jolla N.vasen <- L:n pää, N.oikea <- L.seuraava, N.paino <- (L.paino + L.seuraava.paino)
 
-          while (I.seuraava != null && I.seuraava.paino <= N.paino) {
+		  while (I.seuraava != null && I.seuraava.paino <= N.paino) {
 
-                I <- I.seuraava
+				I <- I.seuraava
 
-          }
+		  }
 
-          N.seuraava <- I.seuraava
+		  N.seuraava <- I.seuraava
 
-          I.seuraava <- N
+		  I.seuraava <- N
 
-          L <- L.seuraava.seuraava
+		  L <- L.seuraava.seuraava
 
-    }
+	}
 
-    palauta L
+	palauta L
 
 
 Huffman-puun rakentaminen on ahne algoritmi, joka poistaa aina listan
@@ -198,21 +198,21 @@ ja pitämällä kirjaa syvyydestä kunnes saavutaan lehtisolmuun.
 Prefiksi-koodit symboleille saadaan (symboli, koodin pituus)-pareista:
 
 
-    Sisääntulo: taulukko S[1,|A|] missä alkiot ovat (symboli, koodin pituus)-pareja
+	Sisääntulo: taulukko S[1,|A|] missä alkiot ovat (symboli, koodin pituus)-pareja
 
-    Ulostulo: taulukko (symboli, koodin pituus, koodi)-kolmikkoja
+	Ulostulo: taulukko (symboli, koodin pituus, koodi)-kolmikkoja
 
-    Järjestä S koodien pituuksien mukaan
+	Järjestä S koodien pituuksien mukaan
 
-    S[1].koodi <- 0
+	S[1].koodi <- 0
 
-    for (i <- 2 to |S|) {
+	for (i <- 2 to |S|) {
 
-        S[i].koodi <- S[i - 1].koodi + 1 << (S[i].pituus - S[i - 1].pituus)
+		S[i].koodi <- S[i - 1].koodi + 1 << (S[i].pituus - S[i - 1].pituus)
 
-    }
+	}
 
-    palauta S
+	palauta S
 
 
 Järjestäminen huomioimatta prefiksikoodaus vie lineaarisesti aikaa
@@ -255,15 +255,15 @@ aputaulukkojen rakentamista, joten sen aikavaativuus on O(|A| log
 Yhden symbolin dekoodaus sisääntulosta tapahtuu seuraavasti:
 
 
-      N <- h verran bittejä sisääntulosta
+	  N <- h verran bittejä sisääntulosta
 
-      Etsi binäärihakua käyttäen i siten että (N < C[i+1] << (h - i - 1)) ja (N >= C[i] << (h - i))
+	  Etsi binäärihakua käyttäen i siten että (N < C[i+1] << (h - i - 1)) ja (N >= C[i] << (h - i))
 
-      N <- (N >> h - i)
+	  N <- (N >> h - i)
 
-      Siirry i eteenpäin sisääntulossa
+	  Siirry i eteenpäin sisääntulossa
 
-      Palauta L[F[i] + N - C[i]]
+	  Palauta L[F[i] + N - C[i]]
 
 
 Koska dekoodaus käyttää binäärihakua, sen aikavaativuus on O(log h) = O(log log n).
@@ -280,29 +280,29 @@ log log n).
 Lempel-Ziv-pakkaaminen käsittelee sisääntulon seuraavasti:
 
 
-    i <- 1
+	i <- 1
 
-    while (i <= size) {
+	while (i <= size) {
 
-        Hae pisin osuma ennen i:tä enintään ikkunan pituuden päästä
+		Hae pisin osuma ennen i:tä enintään ikkunan pituuden päästä
 
-        offset <- -(pisimmän osuman indeksi - i)
+		offset <- -(pisimmän osuman indeksi - i)
 
-        if (osuman pituus < minimi pituus) {
+		if (osuman pituus < minimi pituus) {
 
-            Laita nollabitti ja nykyisellä kohdalla oleva symboli ulostuloon
+			Laita nollabitti ja nykyisellä kohdalla oleva symboli ulostuloon
 
-            i <- i + 1
+			i <- i + 1
 
-        } else {
+		} else {
 
-            Laita ykkösbitti ja (offset, osuman pituus)-pari ulostuloon
+			Laita ykkösbitti ja (offset, osuman pituus)-pari ulostuloon
 
-            i <- i + pituus
+			i <- i + pituus
 
-        }
+		}
 
-    }
+	}
 
 
 Naiivisti toteutettu Lempel-Ziv-pakkaaja kävisi aina osumaa etsiessä
@@ -311,6 +311,14 @@ missä n on syötteen pituus. Liukuvaa ikkunaa käytettäessä pakkaaja
 etsii osumia enintään ikkunan pituuden päästä nykyisestä kohdasta,
 joten jos w olisi ikkunan pituus, niin aikavaativuus olisi O(nw).
 
+
+Tässä toteutuksessa ikkunasta haetaan osumia hajautustaulukon avulla.
+Syötteessä kohdatut kolmen pituiset merkkijonot hashataan, ja hashin
+taakse ketjutetaan hashatun pätkän indeksi ikkunassa. Ketjusta
+tarkistetaan jokin rajattu määrä osumia, jonka jälkeen nykyinen kohta
+laitetaan ketjun päähän. Asymptomaattisesti ikkunan pituus dominoi
+kuitenkin tarkistettavien osumien lukumäärää, joten aikavaativuus on
+edelleen O(nw).
 
 Liukuvaa ikkunaa käyttävän Lempel-Ziv-pakkaamisen tilavaativuus on
 O(w) koska sen täytyy pitää muistissa ikkunan pituuden verran aiemmin
@@ -322,29 +330,29 @@ käsiteltyä syötettä.
 Lempel-Ziv-purkaminen tapahtuu seuraavasti:
 
 
-    i <- 1
+	i <- 1
 
-        while (i <= size) {
+		while (i <= size) {
 
-        Lue bitti b sisääntulosta
+		Lue bitti b sisääntulosta
 
-        if (b = 0) {
+		if (b = 0) {
 
-           Lue symboli ja laita se ulostuloon
+		   Lue symboli ja laita se ulostuloon
 
-           i <- i + 1
+		   i <- i + 1
 
-        } else {
+		} else {
 
-          Lue (offset, pituus)-pari sisääntulosta
+		  Lue (offset, pituus)-pari sisääntulosta
 
-          Kopioi kohdasta (i  - offset) pituuden verran merkkejä ulostuloon
+		  Kopioi kohdasta (i  - offset) pituuden verran merkkejä ulostuloon
 
-          i <- i + pituus
+		  i <- i + pituus
 
-        }
+		}
 
-    }
+	}
 
 
 Purkamista varten sisääntulo täytyy käydä kerran läpi, ja kopioiminen

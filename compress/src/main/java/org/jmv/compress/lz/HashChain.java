@@ -105,26 +105,29 @@ public final class HashChain {
         final int insh = hash(buffer, pos);
         int next = head[insh];
 
-        // matchPosition = 0;
-        // matchLength = 0;
-
         final int windowBegin = pos - windowLength;
         int found = 0;
         int longestMatch = 0;
         int matchPos = 0;
+        // Tutki mahdollisia osumia kunnes ikkuna loppuu tai osumia on
+        // tarkistettu tarpeeksi monta.
         while (next > windowBegin && found < matchLimit) {
-            // final int length = findMatchLength(buffer, pos, next);
+            // Hae osuman pituus.
             final int length = findMatchLength(buffer, pos, next, longestMatch);
 
+            // Jos osuma on tarpeeksi pisin tähän asti kohdattu,
+            // päivitä tulosta.
             if (length > longestMatch) {
                 longestMatch = length;
                 matchPos = next;
             }
 
+            // Hae seuraava mahdollinen osuma.
             next = prev[next & windowMask];
             ++found;
         }
 
+        // Päivitä hajautustaulukkoa.
         prev[pos & windowMask] = head[insh];
         head[insh] = pos;
 

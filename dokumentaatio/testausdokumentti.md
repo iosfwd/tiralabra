@@ -59,6 +59,10 @@ DNA:ta, toinen on englannin kielistä tekstiä, ja kolmas on XML-kieltä.
 
 ### Lempel-Ziv
 
+Lempel-Ziv-pakkaamisessa ikkunan pituutena käytettiin 2^15 merkkiä,
+osuman vähimmäispituutena 3 merkkiä, enimmäispituutena 258 merkkiä, ja
+enimmillään tarkistettavien osumien lukumääränä 128.
+
 Lempel-Ziv-pakkauksella DNA-tiedoston sai pakattua alle puoleen sen
 alkuperäisestä koosta. DNA-aakkosto on rajattu, joten on todennäköistä
 että DNA-merkkijonosta löytyy toistuvia alimerkkijonoja. Lempel-Ziv
@@ -80,6 +84,7 @@ alkuperäisestä koosta.
 Lempel-Ziv suoriutuu purkamisessa tasaisesti ja kaikista parhaiten. Se
 on algoritmisesti hyvin yksinkertainen ja aikavaadivuudeltaan
 lineaariaikainen, joka näkyy ajoajoissa.
+
 
 ### Huffman
 
@@ -110,8 +115,18 @@ aakkosto sisältää todennäköisesti alfanumeeristen merkkien lisäksi
 erikoismerkkejä, ja merkkien jakauma on melko tasainen. Näin ollen
 Huffman-puu antaa melkein yhtäpitkiä koodeja kaikille symboleille.
 
-Isosta aakkostosta johtuen XML:än dekoodaus myös on hidasta.
+Isosta aakkostosta johtuen XML:än dekoodaus on myös hidasta.
 
+### LZHuffman
+
+LZHuffman toimii muuten kuten Lempel-Ziv-pakkaus, paitsi että se
+Huffman-koodaa literaalit. Sen tulokset eivät olleet kovin
+merkittävästi Lempel-Ziviä parempia, parhaimmillaan se paransi
+pakkausta noin prosentin verran.
+
+Purkaminen oli vain hieman hitaampaa kuin pelkällä Lempel-Zivillä.
+LZHuffman-tulokset antavat kuitenkin antoi hyvin osviittaa siitä että
+Lempel-Ziv löysi osumia parhaansa mukaan.
 
 
 ## Yksikkötestien kattavuus
