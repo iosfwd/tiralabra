@@ -147,7 +147,7 @@ public class RunTests {
     private static void testLZHuffmanEncode(String inFileName, String outFileName) {
         try {
             System.out.print("\u001B[31m");
-            System.out.println("Running LZHuffman encoding on dna.1MB");
+            System.out.println("Running LZHuffman encoding on " + inFileName);
             System.out.print("\u001B[0m");
             var lzhufenc = new LZHuffmanEncoder(lzWindowLength, lzMinMatchLength, lzMaxMatchLength, lzMaxMatches);
             var inFile = new File(inFileName);
@@ -209,58 +209,58 @@ public class RunTests {
     public static void main(String[] args) {
         System.out.println("Running tests on test material!");
 
-        testLZEncode("test_material/dna.1MB", "test_material/dna.1MB.lzenc");
+        testLZEncode("test_material/dna.50MB", "test_material/dna.50MB.lzenc");
         System.gc();
 
-        testLZDecode("test_material/dna.1MB.lzenc", "test_material/dna.1MB.lzdec");
+        testLZDecode("test_material/dna.50MB.lzenc", "test_material/dna.50MB.lzdec");
         System.gc();
 
-        testHuffmanEncode("test_material/dna.1MB", "test_material/dna.1MB.huffenc");
+        testHuffmanEncode("test_material/dna.50MB", "test_material/dna.50MB.huffenc");
         System.gc();
 
-        testHuffmanDecode("test_material/dna.1MB.huffenc", "test_material/dna.1MB.huffdec");
+        testHuffmanDecode("test_material/dna.50MB.huffenc", "test_material/dna.50MB.huffdec");
         System.gc();
 
-        testLZHuffmanEncode("test_material/dna.1MB", "test_material/dna.1MB.lzhufenc");
+        testLZHuffmanEncode("test_material/dna.50MB", "test_material/dna.50MB.lzhufenc");
         System.gc();
 
-        testLZHuffmanDecode("test_material/dna.1MB.lzhufenc", "test_material/dna.1MB.lzhufdec");
+        testLZHuffmanDecode("test_material/dna.50MB.lzhufenc", "test_material/dna.50MB.lzhufdec");
         System.gc();
 
-        testLZEncode("test_material/english.1MB", "test_material/english.1MB.lzenc");
+        testLZEncode("test_material/english.50MB", "test_material/english.50MB.lzenc");
         System.gc();
 
-        testLZDecode("test_material/english.1MB.lzenc", "test_material/english.1MB.lzdec");
+        testLZDecode("test_material/english.50MB.lzenc", "test_material/english.50MB.lzdec");
         System.gc();
 
-        testHuffmanEncode("test_material/english.1MB", "test_material/english.1MB.huffenc");
+        testHuffmanEncode("test_material/english.50MB", "test_material/english.50MB.huffenc");
         System.gc();
 
-        testHuffmanDecode("test_material/english.1MB.huffenc", "test_material/english.1MB.huffdec");
+        testHuffmanDecode("test_material/english.50MB.huffenc", "test_material/english.50MB.huffdec");
         System.gc();
 
-        testLZHuffmanEncode("test_material/english.1MB", "test_material/english.1MB.lzhufenc");
+        testLZHuffmanEncode("test_material/english.50MB", "test_material/english.50MB.lzhufenc");
         System.gc();
 
-        testLZHuffmanDecode("test_material/english.1MB.lzhufenc", "test_material/english.1MB.lzhufdec");
+        testLZHuffmanDecode("test_material/english.50MB.lzhufenc", "test_material/english.50MB.lzhufdec");
         System.gc();
 
-        testLZEncode("test_material/xml.1MB", "test_material/xml.1MB.lzenc");
+        testLZEncode("test_material/xml.50MB", "test_material/xml.50MB.lzenc");
         System.gc();
 
-        testLZDecode("test_material/xml.1MB.lzenc", "test_material/xml.1MB.lzdec");
+        testLZDecode("test_material/xml.50MB.lzenc", "test_material/xml.50MB.lzdec");
         System.gc();
 
-        testHuffmanEncode("test_material/xml.1MB", "test_material/xml.1MB.huffenc");
+        testHuffmanEncode("test_material/xml.50MB", "test_material/xml.50MB.huffenc");
         System.gc();
 
-        testHuffmanDecode("test_material/xml.1MB.huffenc", "test_material/xml.1MB.huffdec");
+        testHuffmanDecode("test_material/xml.50MB.huffenc", "test_material/xml.50MB.huffdec");
         System.gc();
 
-        testLZHuffmanEncode("test_material/xml.1MB", "test_material/xml.1MB.lzhufenc");
+        testLZHuffmanEncode("test_material/xml.50MB", "test_material/xml.50MB.lzhufenc");
         System.gc();
 
-        testLZHuffmanDecode("test_material/xml.1MB.lzhufenc", "test_material/xml.1MB.lzhufdec");
+        testLZHuffmanDecode("test_material/xml.50MB.lzhufenc", "test_material/xml.50MB.lzhufdec");
         System.gc();
     }
 }

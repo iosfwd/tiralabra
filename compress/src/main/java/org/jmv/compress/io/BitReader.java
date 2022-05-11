@@ -2,6 +2,7 @@ package org.jmv.compress.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 import org.jmv.compress.huffman.HuffmanNode;
 
@@ -9,7 +10,7 @@ import org.jmv.compress.huffman.HuffmanNode;
  * Luokka bittitason lukemiseen.
  */
 public final class BitReader {
-    private final InputStream input;
+    private final BufferedInputStream input;
     private int buffer;
     private int currentPosition;
     private final int bufferSize = 8;
@@ -27,7 +28,8 @@ public final class BitReader {
      * @throws IOException jos I/O-poikkeama tapahtui.
      */
     public BitReader(InputStream input) throws IOException {
-        this.input = input;
+        this.input = new BufferedInputStream(input, 8192);
+        this.input.mark(8192);
 
         fillBuffer();
     }
@@ -125,7 +127,7 @@ public final class BitReader {
      * Tallenna paikka.
      */
     public final void mark() {
-        input.mark(4096);
+        input.mark(8192);
         markedPosition = currentPosition;
         markedBuffer = buffer;
         bytesReadAtMark = bytesRead;

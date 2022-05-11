@@ -3,6 +3,7 @@ package org.jmv.compress.lz;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.BufferedInputStream;
 import java.util.Arrays;
 
 import org.jmv.compress.huffman.HuffmanTable;
@@ -90,8 +91,10 @@ public final class LZHuffmanEncoder {
             bitWriter.writeBits(minMatchLength, 32);
             bitWriter.writeBits(maxMatchLength, 32);
 
+            final var bis = new BufferedInputStream(input);
+
             final byte[] buffer = new byte[2 * windowLength];
-            int lookahead = fillWindow(buffer, input);
+            int lookahead = fillWindow(buffer, bis);
             while (lookahead != -1) {
                 int currentPosition = (2 * windowLength) - lookahead;
                 while (currentPosition < (2 * windowLength)) {
@@ -121,7 +124,7 @@ public final class LZHuffmanEncoder {
                     }
                 }
                 // Täytä puskuri ja siirrä ikkunaa.
-                lookahead = fillWindow(buffer, input);
+                lookahead = fillWindow(buffer, bis);
                 hc.moveWindow(lookahead);
             }
             bitWriter.finish();
@@ -144,8 +147,10 @@ public final class LZHuffmanEncoder {
     private final static int[] scanCounts(InputStream input) throws IOException {
         final int[] counts = new int[256];
 
+        final var bis = new BufferedInputStream(input);
+
         int token = 0;
-        while ((token = input.read()) != -1) {
+        while ((token = bis.read()) != -1) {
             ++counts[token];
         }
 

@@ -3,6 +3,7 @@ package org.jmv.compress.huffman;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.BufferedInputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -31,8 +32,10 @@ public final class HuffmanEncoder {
             bitWriter.writeTree(ht.getRoot());
             bitWriter.writeBits(size, 32);
 
+            final var bis = new BufferedInputStream(input);
+
             int symbol = 0;
-            while ((symbol = input.read()) != -1) {
+            while ((symbol = bis.read()) != -1) {
                 bitWriter.writeBits(ht.lookupCode(symbol), ht.lookupLength(symbol));
             }
             bitWriter.finish();
@@ -55,8 +58,10 @@ public final class HuffmanEncoder {
     private final static int[] scanCounts(InputStream input) throws IOException {
         final int[] counts = new int[256];
 
+        final var bis = new BufferedInputStream(input);
+
         int token = 0;
-        while ((token = input.read()) != -1) {
+        while ((token = bis.read()) != -1) {
             ++counts[token];
         }
 

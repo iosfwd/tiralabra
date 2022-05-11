@@ -3,6 +3,7 @@ package org.jmv.compress.lz;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.BufferedOutputStream;
 
 import org.jmv.compress.huffman.HuffmanCodebook;
 import org.jmv.compress.huffman.HuffmanTable;
@@ -40,6 +41,8 @@ public final class LZHuffmanDecoder {
 
             int i = 0;
             int windowPosition = 0;
+            final var bos = new BufferedOutputStream(output);
+
             while (i < size) {
 
                 if (bitReader.readBit() == 0) {
@@ -51,7 +54,7 @@ public final class LZHuffmanDecoder {
                     bitReader.reset();
                     bitReader.readBits(len);
 
-                    output.write(symbol);
+                    bos.write(symbol);
                     ++i;
 
                     decoded[windowPosition] = (byte)symbol;
@@ -64,7 +67,7 @@ public final class LZHuffmanDecoder {
 
                     for (int j = 0; j < length; ++j) {
                         decoded[(windowPosition + j) & windowMask] = decoded[(index + j) & windowMask];
-                        output.write((int)decoded[(windowPosition + j) & windowMask]);
+                        bos.write((int)decoded[(windowPosition + j) & windowMask]);
                     }
                     windowPosition += length;
                     windowPosition &= windowMask;
@@ -73,6 +76,7 @@ public final class LZHuffmanDecoder {
                 }
             }
 
+            bos.flush();
             return size;
 
         } catch (IOException e) {

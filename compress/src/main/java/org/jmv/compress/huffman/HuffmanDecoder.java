@@ -3,6 +3,7 @@ package org.jmv.compress.huffman;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.BufferedOutputStream;
 
 import org.jmv.compress.io.BitReader;
 
@@ -25,6 +26,8 @@ public final class HuffmanDecoder {
             final int depth = codebook.getDepth();
             final int size = bitReader.readBits(32);
 
+            final var bos = new BufferedOutputStream(output);
+
             for (int i = 0; i < size; ++i) {
                 bitReader.mark();
                 final int n = bitReader.readBits(depth);
@@ -34,9 +37,10 @@ public final class HuffmanDecoder {
                 bitReader.reset();
                 bitReader.readBits(len);
 
-                output.write(symbol);
+                bos.write(symbol);
             }
 
+            bos.flush();
             return size;
 
         } catch (IOException e) {

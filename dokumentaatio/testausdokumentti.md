@@ -81,7 +81,9 @@ Testidatan kuvaukset ovat seuraavat:
 
 Lempel-Ziv-pakkaamisessa ikkunan pituutena käytettiin 2^15 merkkiä,
 osuman vähimmäispituutena 3 merkkiä, enimmäispituutena 258 merkkiä, ja
-enimmillään tarkistettavien osumien lukumääränä 128.
+enimmillään tarkistettavien osumien lukumääränä 128. Valitsin nämä
+luvut koska muutkin Lempel-Ziv-pakkaajat käyttävät suunnilleen
+vastaavia lukuja.
 
 Lempel-Ziv-pakkauksella DNA-tiedoston sai pakattua alle puoleen sen
 alkuperäisestä koosta. DNA-aakkosto on rajattu, joten on todennäköistä

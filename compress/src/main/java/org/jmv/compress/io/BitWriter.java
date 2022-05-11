@@ -2,6 +2,7 @@ package org.jmv.compress.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.BufferedOutputStream;
 
 import org.jmv.compress.huffman.HuffmanNode;
 
@@ -9,7 +10,7 @@ import org.jmv.compress.huffman.HuffmanNode;
  * Luokka bittitason kirjoittamiseen.
  */
 public class BitWriter {
-    private final OutputStream output;
+    private final BufferedOutputStream output;
     private int buffer;
     private int currentPosition;
     private final int bufferSize = 8;
@@ -21,7 +22,7 @@ public class BitWriter {
      * @param output Ulostulo mihin kirjoitetaan.
      */
     public BitWriter(OutputStream output) {
-        this.output = output;
+        this.output = new BufferedOutputStream(output);
         buffer = 0;
         currentPosition = 0;
     }

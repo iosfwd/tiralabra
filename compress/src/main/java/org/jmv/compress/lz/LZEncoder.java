@@ -3,6 +3,7 @@ package org.jmv.compress.lz;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.BufferedInputStream;
 
 import org.jmv.compress.io.BitWriter;
 import org.jmv.compress.util.BinaryLogarithm;
@@ -74,10 +75,11 @@ public final class LZEncoder {
     public final int encode(InputStream input, OutputStream output) {
         try {
             // Laske ja kirjoita lähtötiedoston pituus.
-            int length = 0;
-            while (input.read() != -1) {
-                ++length;
-            }
+            // int length = 0;
+            // while (input.read() != -1) {
+            //     ++length;
+            // }
+            int length = scanLength(input);
             input.reset();
 
             final var bitWriter = new BitWriter(output);
@@ -86,8 +88,10 @@ public final class LZEncoder {
             bitWriter.writeBits(minMatchLength, 32);
             bitWriter.writeBits(maxMatchLength, 32);
 
+            final var bis = new BufferedInputStream(input);
+
             final byte[] buffer = new byte[2 * windowLength];
-            int lookahead = fillWindow(buffer, input);
+            int lookahead = fillWindow(buffer, bis);
             while (lookahead != -1) {
                 int currentPosition = (2 * windowLength) - lookahead;
                 while (currentPosition < (2 * windowLength)) {
@@ -116,7 +120,7 @@ public final class LZEncoder {
                     }
                 }
                 // Täytä puskuri ja siirrä ikkunaa.
-                lookahead = fillWindow(buffer, input);
+                lookahead = fillWindow(buffer, bis);
                 hc.moveWindow(lookahead);
             }
             bitWriter.finish();
@@ -127,5 +131,16 @@ public final class LZEncoder {
         }
 
         return 0;
+    }
+
+    private final int scanLength(InputStream input) throws IOException {
+        final var bis = new BufferedInputStream(input);
+
+        int length = 0;
+        while (bis.read() != -1) {
+            ++length;
+        }
+
+        return length;
     }
 }
