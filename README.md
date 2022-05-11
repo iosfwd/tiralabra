@@ -11,15 +11,6 @@ Testi-ohjelman saa ajettua näin:
 	$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.RunTests
 
 
-Isommat testit saa ajettua näin:
-
-	$ cd compress
-
-	$ mvn package
-
-	$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.RunBigTests
-
-
 Ohjelmia saa muuten ajettua näin:
 
 * Kääntäminen:

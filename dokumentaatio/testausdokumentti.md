@@ -4,7 +4,7 @@
 
 RunTests-ohjelma ajaa LZ-enkoodauksen ja -dekoodauksen,
 Huffman-enkoodauksen ja -dekoodauksen, sekä niiden yhdistelmän
-kolmelle eri 1MB kokoiselle testitiedostolle. Ohjelma raportoi
+kolmelle eri 50MB kokoiselle testitiedostolle. Ohjelma raportoi
 kullekin näistä luettujen ja kirjoitettujen tiedostojen koot,
 saavutetun pakkaussuhteen, sekä ajoajan.
 
@@ -18,17 +18,9 @@ Testi-ohjelman saa ajettua näin:
 
 RunBigTests-ohjelma ajaa LZ-enkoodauksen ja -dekoodauksen,
 Huffman-enkoodauksen ja -dekoodauksen, sekä niiden yhdistelmän
-kolmelle eri 10MB kokoiselle testitiedostolle. Ohjelma raportoi
+kolmelle eri 200MB kokoiselle testitiedostolle. Ohjelma raportoi
 kullekin näistä luettujen ja kirjoitettujen tiedostojen koot,
 saavutetun pakkaussuhteen, sekä ajoajan.
-
-Isommat testit saa ajettua näin:
-
-	$ cd compress
-
-	$ mvn package
-
-	$ java -cp target/org.jmv.compress-1.0-SNAPSHOT.jar org.jmv.compress.RunBigTests
 
 Testidata on sivustolta
 <http://pizzachili.dcc.uchile.cl/index.html>, joka ylläpitää
