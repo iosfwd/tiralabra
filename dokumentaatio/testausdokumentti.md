@@ -22,11 +22,12 @@ kolmelle eri 200MB kokoiselle testitiedostolle. Ohjelma raportoi
 kullekin näistä luettujen ja kirjoitettujen tiedostojen koot,
 saavutetun pakkaussuhteen, sekä ajoajan.
 
-Testidata on sivustolta
-<http://pizzachili.dcc.uchile.cl/index.html>, joka ylläpitää
-testimateriaalia tiiviille tietorakenteille ja tiedostonpakkaukselle.
-Testidata koostuu kolmesta tiedostosta, joista ensimmäinen on
-DNA:ta, toinen on englannin kielistä tekstiä, ja kolmas on XML-kieltä.
+Testidata on sivustolta <http://pizzachili.dcc.uchile.cl/index.html>,
+joka ylläpitää testimateriaalia tiiviille tietorakenteille ja
+tiedostonpakkaukselle. Testidata koostuu kolmesta tiedostosta, joista
+ensimmäinen on DNA:ta, toinen on englannin kielistä tekstiä, ja kolmas
+on XML-kieltä. Github ei hyväksy 200MB tiedostoja joten ne täytyy
+käydä itse lataamassa jos haluaa toistaa kokeet niille.
 
 Testidatan kuvaukset ovat seuraavat:
 
@@ -49,25 +50,26 @@ Testidatan kuvaukset ovat seuraavat:
   from dblp.uni-trier.de.
 
 
-| Lempel-Ziv   | dna.10MB  | english.10MB | xml.10MB  |
-|:-------------|:----------|:-------------|:----------|
-| Enkoodaus    | 26,65 sek | 27,61 sek    | 17,62 sek |
-| Dekoodaus    | 36,03 sek | 37,85 sek    | 35,04 sek |
-| Pakattu koko | 46,5%     | 60,4%        | 25,4%     |
+| Lempel-Ziv   | dna.200MB | english.200MB | xml.200MB |
+|:-------------|:----------|:--------------|:----------|
+| Enkoodaus    | 43,35 sek | 14,12 sek     | 8,97 sek  |
+| Dekoodaus    | 4,29 sek  | 4,98 sek      | 3,00 sek  |
+| Pakattu koko | 46,4%     | 60,5%         | 24,9%     |
 
 
-| Huffman      | dna.10MB  | english.10MB | xml.10MB  |
-|:-------------|:----------|:-------------|:----------|
-| Enkoodaus    | 28,57 sek | 38,04 sek    | 42,28 sek |
-| Dekoodaus    | 46,33 sek | 78,62 sek    | 79,82 sek |
-| Pakattu koko | 27,7%     | 57,4%        | 65,7%     |
+| Huffman      | dna.200MB | english.200MB | xml.200MB |
+|:-------------|:----------|:--------------|:----------|
+| Enkoodaus    | 3,18 sek  | 5,32 sek      | 6,11 sek  |
+| Dekoodaus    | 11,44 sek | 26,66 sek     | 18,51 sek |
+| Pakattu koko | 27,5%     | 57,0%         | 66,1%     |
 
 
-| LZHuffman    | dna.10MB  | english.10MB | xml.10MB  |
-|:-------------|:----------|:-------------|:----------|
-| Enkoodaus    | 25,62 sek | 27,77 sek    | 17,78 sek |
-| Dekoodaus    | 36,40 sek | 38,36 sek    | 36,64 sek |
-| Pakattu koko | 46,5%     | 59,2%        | 24,5%     |
+| LZHuffman    | dna.200MB | english.200MB | xml.200MB |
+|:-------------|:----------|:--------------|:----------|
+| Enkoodaus    | 43,67 sek | 14,08 sek     | 10,18 sek |
+| Dekoodaus    | 4,19 sek  | 6,01 sek      | 3,50 sek  |
+| Pakattu koko | 46,4%     | 59,4%         | 23,9%     |
+
 
 ### Lempel-Ziv
 
